@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
 import Node from './Node'
-import './Dijkstra.css'
-import {dijskstra, getNodesinShortestPathOrder} from './../../algorithms/DijkstraAlgo'
-
+import './Grid.css'
+import {visualizeDijkstra as Dijkstra} from './../Dijkstra/DijkstraVisualizer'
+import {DFSVisualizer as DFS} from './../Depth First Search/DFSVisualizer'
 class DijkstraAlgo extends Component {
     constructor(props){
         super(props);
@@ -20,9 +20,14 @@ class DijkstraAlgo extends Component {
         const grid = getInitialGrid();
         this.setState({grid})
     }
-    resetGrid = ()=>{
-        const initialGrid = getInitialGrid();
-        this.setState({grid:initialGrid});
+
+    setStartNode = ()=>{
+        this.setState({selectingStartNode:true});
+        this.setState({selectingFinishNode:false});
+    }
+    setFinishNode = ()=>{
+        this.setState({selectingFinishNode:true});
+        this.setState({selectingStartNode:false});
     }
 
     handleMouseDown=(row,col)=>{
@@ -75,40 +80,11 @@ class DijkstraAlgo extends Component {
     
     visualizeDijkstra = ()=>{
         const {grid, startNode, finishNode} = this.state;
-        const StartNode = grid[startNode.row][startNode.col];
-        const FinishNode = grid[finishNode.row][finishNode.col];
-        const visitedNodeInOrder = dijskstra(grid, StartNode, FinishNode);
-        const NodesinShortestPathOrder = getNodesinShortestPathOrder(FinishNode);
-        this.animateDijkstra(visitedNodeInOrder, NodesinShortestPathOrder);
+        Dijkstra(grid, startNode, finishNode);
     }
-
-    animateDijkstra = (visitedNodeInOrder, NodesinShortestPathOrder)=>{
-        for(let i =0; i <= visitedNodeInOrder.length; i++){
-            if(i===visitedNodeInOrder.length){
-                setTimeout(()=>{this.animateShortestPath(NodesinShortestPathOrder)}, 10*i);
-                return;
-                };
-            setTimeout(()=>{
-                const node = visitedNodeInOrder[i];
-                document.getElementById(`node-${node.row}-${node.col}`).className = 'Node node-visited';
-            }, 10*i);
-    }}
-    animateShortestPath = (NodesinShortestPathOrder)=>{
-        for(let i=0; i<NodesinShortestPathOrder.length; i++){
-            setTimeout(()=>{
-                const node = NodesinShortestPathOrder[i];
-                console.log(node);
-                document.getElementById(`node-${node.row}-${node.col}`).className = 'Node node-shortest-path'
-            }, 10*i);
-        }
-    }
-    setStartNode = ()=>{
-        this.setState({selectingStartNode:true});
-        this.setState({selectingFinishNode:false});
-    }
-    setFinishNode = ()=>{
-        this.setState({selectingFinishNode:true});
-        this.setState({selectingStartNode:false});
+    visualizeDFS = ()=>{
+        const {grid, startNode, finishNode} = this.state;
+        DFS(grid, startNode, finishNode);
     }
 
     render(){
@@ -121,8 +97,9 @@ class DijkstraAlgo extends Component {
             <button type="button" className="btn btn-default" onClick={this.setFinishNode}>Select finish</button>
 
             <button type="button" className="btn btn-default" onClick={this.visualizeDijkstra}>Visualize Dijkstra</button>
-            
-            <button type="button" className="btn btn-default" onClick={this.resetGrid}>ResetGrid</button>
+
+            <button type="button" className="btn btn-default" onClick={this.visualizeDFS}>Visualize DFS</button>
+
             <div className="grid">
                 {grid.map((row, rowIdx)=>{
                     return(

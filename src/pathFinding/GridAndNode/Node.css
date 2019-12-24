@@ -1,9 +1,9 @@
 .Node {
-    outline: 1px solid black;
+    outline: 1px solid blue;
     width: 25px;
     height: 25px;
     display: inline-block;
-    background-color: wheat;
+    background-color: white;
 }
 .node-start{
     background-color: blue;
