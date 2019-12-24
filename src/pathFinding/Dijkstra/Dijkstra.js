@@ -20,6 +20,10 @@ class DijkstraAlgo extends Component {
         const grid = getInitialGrid();
         this.setState({grid})
     }
+    resetGrid = ()=>{
+        const initialGrid = getInitialGrid();
+        this.setState({grid:initialGrid});
+    }
 
     handleMouseDown=(row,col)=>{
         if(this.state.selectingStartNode){
