@@ -14,9 +14,10 @@ class Node extends Component {
             onMouseLeave,
             onMouseUp,
             onMouseDown,
-            isVisited
+            isVisited,
+            isWeight
         } = this.props;
-        const extraClassName = isFinish ? 'node-finish' : isStart ? 'node-start' : isWall ? 'node-wall' : isVisited ? 'node-visisted' :'';
+        const extraClassName = isFinish ? 'node-finish' : isStart ? 'node-start' : isWall ? 'node-wall' : isVisited ? 'node-visisted' : isWeight ? 'node-weight':'';
         return(
         <div 
             className={`Node ${extraClassName}`} 

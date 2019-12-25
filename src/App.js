@@ -7,7 +7,7 @@ class App extends Component {
   clearWallandWeights = () => {
     var el = document.getElementsByClassName('Node');
     for (let i = 0; i < el.length; i++) {
-      el[i].classList.remove('node-wall');
+      el[i].classList.remove('node-wall', 'node-weight');
     }
   }
   clearPath = () => {

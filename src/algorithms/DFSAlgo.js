@@ -1,5 +1,4 @@
 export function DFS(grid, startNode, finishNode) {
-    const unvisitedNode = getAllNode(grid);
     const nodeVisited = [];
     startNode.distance = 0;
     DFSAlgo(startNode, finishNode, nodeVisited, grid);
@@ -7,11 +6,6 @@ export function DFS(grid, startNode, finishNode) {
 }
 function DFSAlgo(node, finishNode, nodeVisited, grid) {
     const neighborNodes = getNeighborNodes(node, grid);
-    // for (const neighborNode of neighborNodes) {
-    // neighborNode.distance = node.distance + 1;
-    // }
-    // const nodeUnvisistedInOrder = sortNodeByDistance(unvisitedNode);
-    // const closetNode = nodeUnvisistedInOrder.shift();
     for (let i = 0; i < neighborNodes.length && !finishNode.isVisited; i++) {
         neighborNodes[i].isVisited = true;
         if (neighborNodes[i].isWall) continue;
@@ -37,19 +31,6 @@ function getNeighborNodes(node, grid) {
     return neighborNodes.filter(neighbor => !neighbor.isVisited);
 }
 
-function sortNodeByDistance(unvisitedNode) {
-    unvisitedNode.sort((nodeA, nodeB) => nodeA.distance - nodeB.distance)
-}
-
-function getAllNode(grid) {
-    const allNodes = [];
-    for (const row of grid) {
-        for (const node of row) {
-            allNodes.push(node);
-        }
-    }
-    return allNodes;
-}
 export function findShortestPath(finishNode) {
     const nodeInShortestPath = [];
     let currentNode = finishNode;
