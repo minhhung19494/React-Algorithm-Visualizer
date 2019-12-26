@@ -4,19 +4,41 @@ import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
 import Grid from './pathFinding/GridAndNode/Grid'
 
 class App extends Component {
-  clearWallandWeights = () => {
-    var el = document.getElementsByClassName('Node');
-    for (let i = 0; i < el.length; i++) {
-      el[i].classList.remove('node-wall', 'node-weight');
+  constructor(props) {
+    super(props);
+    this.state = {
+      algorithm: null,
+      triggerAlgorithm: false,
+      resetGrid: false
     }
   }
+
   clearPath = () => {
     var el = document.getElementsByClassName('Node');
     for (let i = 0; i < el.length; i++) {
-      el[i].classList.remove('node-visited', 'node-shortest-path', 'node-start', 'node-finish');
+      el[i].classList.remove('node-visited', 'node-shortest-path');
+      this.setState({ triggerAlgorithm: false })
     }
   }
+  clearBoard = (grid) => {
+    var el = document.getElementsByClassName('Node');
+    for (let i = 0; i < el.length; i++) {
+      el[i].classList.remove('node-visited', 'node-shortest-path', 'node-start', 'node-finish', 'node-wall', 'node-wieght');
+    }
+    this.setState({ triggerAlgorithm: false });
+    this.setState({ resetGrid: true });
+  }
+  selectAlgorithm = (e) => {
+    e.preventDefault();
+    const { textContent } = e.target;
+    this.setState({ algorithm: textContent })
+  }
+  triggerAlgo = () => {
+    this.setState({ triggerAlgorithm: true });
+    this.setState({ resetGrid: false })
+  }
   render() {
+    const { algorithm, triggerAlgorithm, resetGrid } = this.state;
     return (
       <Router>
         <div className="App">
@@ -27,10 +49,19 @@ class App extends Component {
                 <a className="dropdown-toggle" data-toggle="dropdown" href="#">Algorithms</a>
                 <ul className="dropdown-menu" id="AlgorithmList">
                   <li className="navbar-nav">
-                    <Link to="/Dijkstra">Dijkstra</Link>
+                    <a onClick={this.selectAlgorithm} href="#" name="Dijkstra">Dijkstra</a>
                   </li>
                   <li className="navbar-nav">
-                    <Link to="/DFS">DFS</Link>
+                    <a onClick={this.selectAlgorithm} name="Depth First Search" href="#">Depth First Search</a>
+                  </li>
+                  <li className="navbar-nav">
+                    <a onClick={this.selectAlgorithm} name="BFS" href="#">Breadth First Search</a>
+                  </li>
+                  <li className="navbar-nav">
+                    <a onClick={this.selectAlgorithm} name="AStar" href="#">A star</a>
+                  </li>
+                  <li className="navbar-nav">
+                    <a onClick={this.selectAlgorithm} name="GreadyBFS" href="#">Gready Best First Search</a>
                   </li>
                 </ul>
               </li>
@@ -41,27 +72,28 @@ class App extends Component {
                 <a href="#">Add Bomb</a>
               </li>
               <li>
-                <a href="#">Visualizer</a>
+                <a className='btn btn-primary' onClick={this.triggerAlgo} href="#">{!algorithm ? 'Please Pick Algorithm' : 'Visualize ' + algorithm} </a>
               </li>
               <li>
-                <a href="#">ClearBoard</a>
+                <a className="btn btn-default" onClick={this.clearBoard}>ClearBoard</a>
               </li>
               <li>
-                <a className="btn btn-primary" onClick={this.clearWallandWeights}>Clear Walls and Weights</a>
+                <a className="btn btn-default" onClick={this.clearPath}>Clear Path</a>
               </li>
               <li>
-                <a className="btn btn-primary" onClick={this.clearPath}>Clear Path</a>
+                <a className="dropdow-toggle btn btn-default" data-toggle="dropdown" href="#">Speed</a>
+                <ul className="dropdown-menu">
+                  <li>Fast</li>
+                  <li>Medium</li>
+                  <li>Slow</li>
+                </ul>
               </li>
               <li>
-                <a href="#">Speed</a>
+                <a className="btn btn-default" onClick={this.setStartNode}>Set Start Node</a>
               </li>
-              <li>
-                <a className="btn btn-primary" onClick={this.setStartNode}>Set Start Node</a>
-              </li>
-              
+
             </ul>
           </div>
-
           <div id="mainGrid">
             <div id="mainText">
             </div>
@@ -69,9 +101,11 @@ class App extends Component {
             </div>
           </div>
           <div>
-            <Route path="/Dijkstra">
-              <Grid></Grid>
-            </Route>
+            <Grid
+              triggerAlgorithm={triggerAlgorithm}
+              algorithm={algorithm}
+              resetGrid={resetGrid}
+            ></Grid>
           </div>
         </div>
       </Router>

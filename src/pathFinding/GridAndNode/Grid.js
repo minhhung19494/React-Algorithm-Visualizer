@@ -4,7 +4,8 @@ import './Grid.css'
 import { visualizeDijkstra as Dijkstra } from './../Dijkstra/DijkstraVisualizer'
 import { DFSVisualizer as DFS } from './../Depth First Search/DFSVisualizer'
 import { visualizeBFS as BFS } from './../Breadth First Search/BFSVisualizer';
-import {visualizeAStar as AStar} from './../A star/AStarVisualizer';
+import { visualizeAStar as AStar } from './../A star/AStarVisualizer';
+import {visualizeGreadyBFS as GreadyBFS} from './../Gready Best First Search/GreadyBFS';
 class DijkstraAlgo extends Component {
     constructor(props) {
         super(props);
@@ -23,6 +24,49 @@ class DijkstraAlgo extends Component {
     componentDidMount() {
         const grid = getInitialGrid();
         this.setState({ grid })
+    }
+
+    componentDidUpdate(prevProps) {
+        if (prevProps.triggerAlgorithm !== this.props.triggerAlgorithm) {
+            console.log('hasChange');
+            if (this.props.triggerAlgorithm) {
+                switch (this.props.algorithm) {
+                    case 'Dijkstra':
+                        this.visualizeDijkstra();
+                        break;
+                    case 'A star':
+                        this.visualizeAStar();
+                        break;
+                    case 'Depth First Search':
+                        this.visualizeDFS();
+                        break;
+                    case 'Breadth First Search':
+                        this.visualizeBFS();
+                        break;
+                    case 'Gready Best First Search':
+                        this.visualizeGreadyBFS();
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+        if (prevProps.resetGrid !== this.props.resetGrid) {
+            const { grid } = this.state;
+            const newGrid = grid.slice();
+            newGrid.forEach(row => {
+                row.forEach(node => {
+                    node.isVisited = false;
+                    node.previousNode = null;
+                    node.isWall = false;
+                    node.isWeight = false;
+                    node.distance = Infinity;
+                    node.heuristicDistance = Infinity;
+                    node.fullDistance = Infinity
+                })
+            });
+            this.setState({grid: newGrid});
+        }
     }
 
     setStartNode = () => {
@@ -120,9 +164,13 @@ class DijkstraAlgo extends Component {
         const { grid, startNode, finishNode } = this.state;
         BFS(grid, startNode, finishNode);
     }
-    visualizeAStar = ()=>{
-        const {grid, startNode, finishNode} = this.state;
+    visualizeAStar = () => {
+        const { grid, startNode, finishNode } = this.state;
         AStar(grid, startNode, finishNode);
+    }
+    visualizeGreadyBFS =()=>{
+        const{grid, startNode, finishNode} = this.state;
+        GreadyBFS(grid, startNode, finishNode);
     }
     render() {
         const { grid, mouseIsPress } = this.state;
@@ -130,16 +178,7 @@ class DijkstraAlgo extends Component {
             <div className="main">
 
                 <button type="button" className="btn btn-default" onClick={this.setStartNode}>Select start</button>
-
                 <button type="button" className="btn btn-default" onClick={this.setFinishNode}>Select finish</button>
-
-                <button type="button" className="btn btn-default" onClick={this.visualizeDijkstra}>Visualize Dijkstra</button>
-
-                <button type="button" className="btn btn-default" onClick={this.visualizeDFS}>Visualize DFS</button>
-
-                <button type="button" className="btn btn-default" onClick={this.visualizeBFS}>Visualize BFS</button>
-
-                <button type="button" className="btn btn-default" onClick={this.visualizeAStar}>Visualize A*</button>
                 <button type="button" className="btn btn-default" onClick={this.selectWeight}>Select Weight</button>
 
                 <div className="grid">
@@ -163,7 +202,6 @@ class DijkstraAlgo extends Component {
                                             onMouseDown={this.handleMouseDown}
                                             onMouseUp={this.handleMouseUp}
                                             onMouseLeave={this.handleMouseLeave}
-
                                         ></Node>
                                     );
                                 })
@@ -202,7 +240,7 @@ const createNode = (row, col) => {
         isVisited: false,
         isWeight: false,
         heuristicDistance: Infinity,
-        fullDistance: Infinity 
+        fullDistance: Infinity
     }
 }
 const getNewGrid = (grid, row, col) => {

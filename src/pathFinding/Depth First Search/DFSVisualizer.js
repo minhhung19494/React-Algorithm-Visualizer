@@ -10,13 +10,13 @@ export function DFSVisualizer(grid, startNode, finishNode) {
 function animateDFS(nodeVisited, nodeInShortestPath) {
     for (let i = 0; i <= nodeVisited.length-1; i++) {
         if (i === nodeVisited.length -1) {
-            setTimeout(()=>animateNodeInShortestPath(nodeInShortestPath), 50*i);
+            setTimeout(()=>animateNodeInShortestPath(nodeInShortestPath), 10*i);
             return
             }
         const node= nodeVisited[i];
         setTimeout(() => {
             document.getElementById(`node-${node.row}-${node.col}`).className = 'Node node-visited'
-        }, 50 * i);
+        }, 10 * i);
     }
 
 }
