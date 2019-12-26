@@ -3,7 +3,8 @@ import Node from './Node'
 import './Grid.css'
 import { visualizeDijkstra as Dijkstra } from './../Dijkstra/DijkstraVisualizer'
 import { DFSVisualizer as DFS } from './../Depth First Search/DFSVisualizer'
-import { visualizeBFS as BFS } from './../Breadth Firest Search/BFSVisualizer';
+import { visualizeBFS as BFS } from './../Breadth First Search/BFSVisualizer';
+import {visualizeAStar as AStar} from './../A star/AStarVisualizer';
 class DijkstraAlgo extends Component {
     constructor(props) {
         super(props);
@@ -33,8 +34,8 @@ class DijkstraAlgo extends Component {
         this.setState({ selectingStartNode: false });
     }
 
-    selectWeight = () =>{
-        this.setState({selectingWeight:!this.state.selectingWeight});
+    selectWeight = () => {
+        this.setState({ selectingWeight: !this.state.selectingWeight });
         console.log(this.state.selectingWeight);
     }
     // selectWeight = () => {
@@ -82,7 +83,7 @@ class DijkstraAlgo extends Component {
             this.setState({ grid: newGridwithFinishNode });
             return;
         }
-        if(this.state.selectingWeight && this.state.mouseIsPress){
+        if (this.state.selectingWeight && this.state.mouseIsPress) {
             const newGridwithWeight = getNewGridWithWeight(this.state.grid, row, col);
             this.setState({ grid: newGridwithWeight });
             return
@@ -119,6 +120,10 @@ class DijkstraAlgo extends Component {
         const { grid, startNode, finishNode } = this.state;
         BFS(grid, startNode, finishNode);
     }
+    visualizeAStar = ()=>{
+        const {grid, startNode, finishNode} = this.state;
+        AStar(grid, startNode, finishNode);
+    }
     render() {
         const { grid, mouseIsPress } = this.state;
         return (
@@ -134,6 +139,7 @@ class DijkstraAlgo extends Component {
 
                 <button type="button" className="btn btn-default" onClick={this.visualizeBFS}>Visualize BFS</button>
 
+                <button type="button" className="btn btn-default" onClick={this.visualizeAStar}>Visualize A*</button>
                 <button type="button" className="btn btn-default" onClick={this.selectWeight}>Select Weight</button>
 
                 <div className="grid">
@@ -195,6 +201,8 @@ const createNode = (row, col) => {
         previousNode: null,
         isVisited: false,
         isWeight: false,
+        heuristicDistance: Infinity,
+        fullDistance: Infinity 
     }
 }
 const getNewGrid = (grid, row, col) => {

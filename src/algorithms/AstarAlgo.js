@@ -1,10 +1,12 @@
-export function dijskstra(grid, startNode, finishNode) {
+export function AStarAlgo(grid, startNode, finishNode) {
     const visitedNodeInOrder = [];
-    const unvisistedNode = getAllNodes(grid);
+    const unvisitedNode = getAllNodes(grid);
     startNode.distance = 0;
-    while (!!unvisistedNode.length) {
-        sortNodeByDistance(unvisistedNode)
-        const closetNode = unvisistedNode.shift();
+    startNode.heuristicDistance = calculateHeuristic(startNode, finishNode);
+    startNode.fullDistance = startNode.distance +startNode.heuristicDistance;
+    while (!!unvisitedNode.length) {
+        sortNodeByDistance(unvisitedNode)
+        const closetNode = unvisitedNode.shift();
         if (closetNode.isWall) continue;
         if (closetNode.distance === Infinity) {
             return visitedNodeInOrder;
@@ -14,20 +16,15 @@ export function dijskstra(grid, startNode, finishNode) {
         if (closetNode === finishNode) {
             return visitedNodeInOrder;
         }
-        updateUnvisitedNeighbors(closetNode, grid);
+        updateUnvisitedNeighbors(closetNode, grid, finishNode);
     };
 }
-
-
-function sortNodeByDistance(unvisistedNode) {
-    unvisistedNode.sort((nodeA, nodeB) => nodeA.distance - nodeB.distance);
-
-};
-function updateUnvisitedNeighbors(node, grid) {
+function updateUnvisitedNeighbors(node, grid, finishNode) {
     const neighborNodes = getNeighborNodes(node, grid);
     for (const neighbors of neighborNodes) {
         if (neighbors.isVisited) {
             let newDistance = null;
+            let heuristicDistance = calculateHeuristic(neighbors, finishNode);
             if (neighbors.isWeight) {
                 newDistance = node.distance + 15;
             } else {
@@ -35,18 +32,33 @@ function updateUnvisitedNeighbors(node, grid) {
             }
             if (neighbors.distance > newDistance) {
                 neighbors.distance = newDistance;
+                neighbors.fullDistance = newDistance + heuristicDistance;
                 neighbors.previousNode = node;
             }
         } else {
-            if (neighbors.isWeight) {
-                neighbors.distance = node.distance + 15;
-            } else {
-                neighbors.distance = node.distance + 1;
-            }
+            calculateUnvisitedDistance(neighbors, node, finishNode);
             neighbors.previousNode = node;
         };
     }
 }
+function calculateUnvisitedDistance(neighbors, node, finishNode) {
+    neighbors.heuristicDistance = calculateHeuristic(neighbors, finishNode);
+    if (neighbors.isWeight) {
+        neighbors.distance = node.distance + 15;
+    } else {
+        neighbors.distance = node.distance + 1;
+    }
+    neighbors.fullDistance = neighbors.distance + neighbors.heuristicDistance;
+}
+
+function calculateHeuristic(node, finishNode) {
+    let heuristicDistance = null;
+    const row = Math.abs(finishNode.row - node.row);
+    const col = Math.abs(finishNode.col - node.col);
+    heuristicDistance = row + col;
+    return heuristicDistance;
+}
+
 function getNeighborNodes(node, grid) {
     const neighbors = [];
     const { row, col } = node;
@@ -57,6 +69,9 @@ function getNeighborNodes(node, grid) {
     return neighbors;
 };
 
+function sortNodeByDistance(unvisitedNode) {
+    unvisitedNode.sort((nodeA, nodeB) => nodeA.fullDistance - nodeB.fullDistance);
+}
 function getAllNodes(grid) {
     const allNodes = [];
     for (const row of grid) {
@@ -74,5 +89,4 @@ export function getNodesinShortestPathOrder(finishNode) {
         currentNode = currentNode.previousNode;
     }
     return nodeInShortestPath;
-
-};
+}

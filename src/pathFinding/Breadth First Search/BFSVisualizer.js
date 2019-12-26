@@ -1,4 +1,4 @@
-import {BFSAlgo, getNodesinShortestPathOrder} from './../../algorithms/BFSAlgo'
+import {BFSAlgo, getNodesinShortestPathOrder} from '../../algorithms/BFSAlgo'
 
 export function visualizeBFS(grid, startNode, finishNode){
     const StartNode = grid[startNode.row][startNode.col];
