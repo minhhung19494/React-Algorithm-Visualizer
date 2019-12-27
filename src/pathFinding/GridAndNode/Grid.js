@@ -6,6 +6,7 @@ import { DFSVisualizer as DFS } from './../Depth First Search/DFSVisualizer'
 import { visualizeBFS as BFS } from './../Breadth First Search/BFSVisualizer';
 import { visualizeAStar as AStar } from './../A star/AStarVisualizer';
 import {visualizeGreadyBFS as GreadyBFS} from './../Gready Best First Search/GreadyBFS';
+import {visualizeSwarm as swarm} from './../Swarm/SwarmVisualizer';
 class DijkstraAlgo extends Component {
     constructor(props) {
         super(props);
@@ -45,6 +46,9 @@ class DijkstraAlgo extends Component {
                         break;
                     case 'Gready Best First Search':
                         this.visualizeGreadyBFS();
+                        break;
+                    case 'Swarm':
+                        this.visualizeSwarm();
                         break;
                     default:
                         break;
@@ -172,6 +176,10 @@ class DijkstraAlgo extends Component {
         const{grid, startNode, finishNode} = this.state;
         GreadyBFS(grid, startNode, finishNode);
     }
+    visualizeSwarm= ()=>{
+        const{grid, startNode, finishNode}= this.state;
+        swarm(grid, startNode, finishNode);
+    }
     render() {
         const { grid, mouseIsPress } = this.state;
         return (
@@ -240,7 +248,8 @@ const createNode = (row, col) => {
         isVisited: false,
         isWeight: false,
         heuristicDistance: Infinity,
-        fullDistance: Infinity
+        swarmIdx: Infinity,
+        fullDistance: Infinity,
     }
 }
 const getNewGrid = (grid, row, col) => {

@@ -43,7 +43,7 @@ class App extends Component {
       <Router>
         <div className="App">
           <div className="navbar">
-            <a className="navbar-brand" href="#">PathFiding Visualizer</a>
+            <a className="navbar-brand" href="/">PathFiding Visualizer</a>
             <ul className="nav navbar-nav">
               <li className="dropdown">
                 <a className="dropdown-toggle" data-toggle="dropdown" href="#">Algorithms</a>
@@ -62,6 +62,9 @@ class App extends Component {
                   </li>
                   <li className="navbar-nav">
                     <a onClick={this.selectAlgorithm} name="GreadyBFS" href="#">Gready Best First Search</a>
+                  </li>
+                  <li className="navbar-nav">
+                    <a onClick={this.selectAlgorithm} name="Swarm" href="#">Swarm</a>
                   </li>
                 </ul>
               </li>
