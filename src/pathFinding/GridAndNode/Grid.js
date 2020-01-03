@@ -5,8 +5,9 @@ import { visualizeDijkstra as Dijkstra } from './../Dijkstra/DijkstraVisualizer'
 import { DFSVisualizer as DFS } from './../Depth First Search/DFSVisualizer'
 import { visualizeBFS as BFS } from './../Breadth First Search/BFSVisualizer';
 import { visualizeAStar as AStar } from './../A star/AStarVisualizer';
-import {visualizeGreadyBFS as GreadyBFS} from './../Gready Best First Search/GreadyBFS';
-import {visualizeSwarm as swarm} from './../Swarm/SwarmVisualizer';
+import { visualizeGreadyBFS as GreadyBFS } from './../Gready Best First Search/GreadyBFS';
+import { visualizeSwarm as swarm } from './../Swarm/SwarmVisualizer';
+import { recursiveDivision as createMaze } from '../../Maze/RecursiveDivision';
 class DijkstraAlgo extends Component {
     constructor(props) {
         super(props);
@@ -69,7 +70,7 @@ class DijkstraAlgo extends Component {
                     node.fullDistance = Infinity
                 })
             });
-            this.setState({grid: newGrid});
+            this.setState({ grid: newGrid });
         }
     }
 
@@ -137,8 +138,14 @@ class DijkstraAlgo extends Component {
             return
         }
         if (this.state.mouseIsPress) {
-            const newGrid = getNewGrid(this.state.grid, row, col);
-            this.setState({ grid: newGrid });
+            this.state.grid[row][col].isWall = !this.state.grid[row][col].isWall;
+            if (document.getElementById(`node-${row}-${col}`).className == 'Node node-wall') {
+                document.getElementById(`node-${row}-${col}`).className = 'Node'
+            } else {
+                document.getElementById(`node-${row}-${col}`).className = 'Node node-wall';
+                // const newGrid = getNewGrid(this.state.grid, row, col);
+                // this.setState({ grid: newGrid });
+            }
         }
     }
     handleMouseLeave = (row, col) => {
@@ -159,6 +166,7 @@ class DijkstraAlgo extends Component {
     visualizeDijkstra = () => {
         const { grid, startNode, finishNode } = this.state;
         Dijkstra(grid, startNode, finishNode);
+        console.log(this.state.grid);
     }
     visualizeDFS = () => {
         const { grid, startNode, finishNode } = this.state;
@@ -172,13 +180,23 @@ class DijkstraAlgo extends Component {
         const { grid, startNode, finishNode } = this.state;
         AStar(grid, startNode, finishNode);
     }
-    visualizeGreadyBFS =()=>{
-        const{grid, startNode, finishNode} = this.state;
+    visualizeGreadyBFS = () => {
+        const { grid, startNode, finishNode } = this.state;
         GreadyBFS(grid, startNode, finishNode);
     }
-    visualizeSwarm= ()=>{
-        const{grid, startNode, finishNode}= this.state;
+    visualizeSwarm = () => {
+        const { grid, startNode, finishNode } = this.state;
         swarm(grid, startNode, finishNode);
+    }
+    visualizeMaze = () => {
+        const { grid, startNode, finishNode } = this.state;
+        const wallInOrder = [...createMaze(grid, startNode, finishNode)];
+        for (let i = 0; i < wallInOrder.length; i++) {
+            setTimeout(() => {
+                const node = wallInOrder[i];
+                document.getElementById(`node-${node.row}-${node.col}`).className = 'Node node-wall';
+            }, 10 * i)
+        };
     }
     render() {
         const { grid, mouseIsPress } = this.state;
@@ -188,7 +206,7 @@ class DijkstraAlgo extends Component {
                 <button type="button" className="btn btn-default" onClick={this.setStartNode}>Select start</button>
                 <button type="button" className="btn btn-default" onClick={this.setFinishNode}>Select finish</button>
                 <button type="button" className="btn btn-default" onClick={this.selectWeight}>Select Weight</button>
-
+                <button type="button" className="btn btn-default" onClick={this.visualizeMaze}>Create Maze</button>
                 <div className="grid">
                     {grid.map((row, rowIdx) => {
                         return (
@@ -259,7 +277,7 @@ const getNewGrid = (grid, row, col) => {
         ...node,
         isWall: !node.isWall
     }
-    newGrid[row][col] = newNode;
+    newGrid[row][col].isWall = true;
     return newGrid;
 }
 const getNewGridWithStartNode = (grid, row, col) => {

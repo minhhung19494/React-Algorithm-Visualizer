@@ -26,26 +26,13 @@ function sortNodeByDistance(unvisistedNode) {
 function updateUnvisitedNeighbors(node, grid) {
     const neighborNodes = getNeighborNodes(node, grid);
     for (const neighbors of neighborNodes) {
-        if (neighbors.isVisited) {
-            let newDistance = null;
-            if (neighbors.isWeight) {
-                newDistance = node.distance + 15;
-            } else {
-                newDistance = node.distance + 1;
-            }
-            if (neighbors.distance > newDistance) {
-                neighbors.distance = newDistance;
-                neighbors.previousNode = node;
-            }
+        if (neighbors.isWeight) {
+            neighbors.distance = node.distance + 15;
         } else {
-            if (neighbors.isWeight) {
-                neighbors.distance = node.distance + 15;
-            } else {
-                neighbors.distance = node.distance + 1;
-            }
-            neighbors.previousNode = node;
-        };
-    }
+            neighbors.distance = node.distance + 1;
+        }
+        neighbors.previousNode = node;
+    };
 }
 function getNeighborNodes(node, grid) {
     const neighbors = [];
@@ -54,7 +41,7 @@ function getNeighborNodes(node, grid) {
     if (row < grid.length - 1) neighbors.push(grid[row + 1][col]);
     if (col > 0) neighbors.push(grid[row][col - 1]);
     if (col < grid[0].length - 1) neighbors.push(grid[row][col + 1]);
-    return neighbors;
+    return neighbors.filter(neighbor => !neighbor.isVisited);
 };
 
 function getAllNodes(grid) {

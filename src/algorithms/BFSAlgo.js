@@ -1,57 +1,46 @@
-export function BFSAlgo(grid, startNode, finishNode){
+export function BFSAlgo(grid, startNode, finishNode) {
     const visitedNodeInOrder = [];
-    const unvisistedNode = getAllNodes(grid);
     startNode.distance = 0;
-    while( !!unvisistedNode.length){
-        sortNodeByDistance(unvisistedNode)
-        const closetNode = unvisistedNode.shift();
-        if(closetNode.isWall) continue;
-        if(closetNode.distance === Infinity){
-            return visitedNodeInOrder;
-        }
-        closetNode.isVisited = true;
+    startNode.isVisited = true;
+    let unvisitedNodeQueue = [];
+    unvisitedNodeQueue.push(startNode);
+    while (!!unvisitedNodeQueue.length) {
+        const closetNode = unvisitedNodeQueue.shift();
+        if (closetNode.isWall) continue;
         visitedNodeInOrder.push(closetNode);
-        if(closetNode === finishNode){
+        if (closetNode === finishNode) {
             return visitedNodeInOrder;
-        }
-        updateUnvisistedNeighbors(closetNode, grid);
-
+        };
+        const finalNeighbors = updateNeighbors(closetNode, grid);
+        unvisitedNodeQueue=unvisitedNodeQueue.concat(finalNeighbors);
     }
-};
-function sortNodeByDistance(unvisistedNode){
-    unvisistedNode.sort((nodeA, nodeB)=>nodeA.distance - nodeB.distance);
-    
-};
-function updateUnvisistedNeighbors(node, grid){
+    return visitedNodeInOrder;
+}
+function updateNeighbors(node, grid) {
     const unvisistedNeighbors = getUnvisitedNeighbors(node, grid);
-    for(const neighbors of unvisistedNeighbors){
+    const finalNeighbors = []
+    for (const neighbors of unvisistedNeighbors) {
         neighbors.distance = node.distance + 1;
         neighbors.previousNode = node;
+        neighbors.isVisited = true;
+        finalNeighbors.push(neighbors);
     };
+    return finalNeighbors;
 }
-function getUnvisitedNeighbors(node, grid){
+function getUnvisitedNeighbors(node, grid) {
     const neighbors = [];
-    const {row, col} = node;
-    if(row>0) neighbors.push(grid[row-1][col]);
-    if(row<grid.length -1) neighbors.push(grid[row+1][col]);
-    if(col>0) neighbors.push(grid[row][col-1]);
-    if(col<grid[0].length-1) neighbors.push(grid[row][col+1]);
-    return neighbors.filter(neighbors => !neighbors.isVisited);
+    const { row, col } = node;
+    if (row > 0) neighbors.push(grid[row - 1][col]);
+    if (row < grid.length - 1) neighbors.push(grid[row + 1][col]);
+    if (col > 0) neighbors.push(grid[row][col - 1]);
+    if (col < grid[0].length - 1) neighbors.push(grid[row][col + 1]);
+    return neighbors.filter(neighbor => !neighbor.isVisited);
 };
 
-function getAllNodes(grid){
-    const allNodes = [];
-    for(const row of grid){
-        for(const node of row){
-            allNodes.push(node);
-        }
-    }
-    return allNodes;
-};
-export function getNodesinShortestPathOrder(finishNode){
+export function getNodesinShortestPathOrder(finishNode) {
     const nodeInShortestPath = [];
     let currentNode = finishNode;
-    while(currentNode !== null){
+    while (currentNode !== null) {
         nodeInShortestPath.unshift(currentNode);
         currentNode = currentNode.previousNode;
     }

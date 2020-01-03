@@ -24,7 +24,6 @@ export function animateShortestPath(NodesinShortestPathOrder){
     for(let i=0; i<NodesinShortestPathOrder.length; i++){
         setTimeout(()=>{
             const node = NodesinShortestPathOrder[i];
-            console.log(node);
             document.getElementById(`node-${node.row}-${node.col}`).className = 'Node node-shortest-path'
         }, 10*i);
     }
