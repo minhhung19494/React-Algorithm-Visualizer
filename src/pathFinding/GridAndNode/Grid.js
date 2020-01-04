@@ -195,7 +195,7 @@ class DijkstraAlgo extends Component {
             setTimeout(() => {
                 const node = wallInOrder[i];
                 document.getElementById(`node-${node.row}-${node.col}`).className = 'Node node-wall';
-            }, 10 * i)
+            }, 50 * i)
         };
     }
     render() {
