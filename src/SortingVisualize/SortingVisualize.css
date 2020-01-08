@@ -1,0 +1,11 @@
+.barChart{
+    display: inline-block;
+    border: solid 1px wheat;
+    background-color: red;
+}
+.compare{
+    background-color: yellow;
+}
+.finished{
+    background-color: blueviolet;
+}

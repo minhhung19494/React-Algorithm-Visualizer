@@ -1,0 +1,71 @@
+.Node {
+    outline: 1px solid rgb(175,216,248);
+    width: 25px;
+    height: 25px;
+    display: inline-block;
+    background-color: white;
+}
+.node-start{
+    background-color: blue;
+}
+.node-finish{
+    background-image: url("../static/finish.svg");
+    background-size:contain;
+}
+@keyframes wallAnimation{
+    0%{
+        transform: scale(.3);
+        background-color: brown;
+    }
+    50%{
+        transform: scale(1.2);
+        background-color: brown;
+    }
+    100%{
+        transform: scale(1.0);
+        background-color: brown;
+    }
+}
+.node-wall{
+    animation-name: wallAnimation;
+    animation-duration: 0.3s;
+    animation-timing-function: ease-out;
+    /* animation-direction: alternate; */
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
+    animation-play-state: running;
+}
+.node-weight{
+    background-color: blueviolet;
+}
+.node-visited{
+    background-color: yellow;
+    animation-name: visitedAnimation ;
+    animation-duration: 1.5s;
+    animation-timing-function: ease-out;
+    /* animation-direction: alternate; */
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
+    animation-play-state: running;
+}
+@keyframes visitedAnimation{
+    0%{
+        transform: scale(.3);
+        background-color: rgba(0,0,66,0.75);
+        border-radius: 100%
+    }
+    50%{
+        background-color: rgba(17,104,217,075);
+    }
+    75%{
+        transform: scale(1.2);
+        background-color: rgba(0,217,159,0.75);
+    }
+    100%{
+        transform: scale(1.0);
+        background-color: rgba(0,190,218,0.75);
+    }
+}
+.node-shortest-path{
+    background-color: yellow;
+}

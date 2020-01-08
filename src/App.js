@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
 import './App.css';
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
-import Grid from './pathFinding/GridAndNode/Grid'
+import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
+import Grid from './GridAndNode/Grid';
+
+import Sorting from './SortingVisualize/SortingVisualizer';
+
 
 class App extends Component {
   constructor(props) {
@@ -44,6 +47,7 @@ class App extends Component {
         <div className="App">
           <div className="navbar">
             <a className="navbar-brand" href="/">PathFiding Visualizer</a>
+            <a className="navbar-brand" href="/SortingVisualize">Sorting Visualizer</a>
             <ul className="nav navbar-nav">
               <li className="dropdown">
                 <a className="dropdown-toggle" data-toggle="dropdown" href="#">Algorithms</a>
@@ -104,11 +108,18 @@ class App extends Component {
             </div>
           </div>
           <div>
-            <Grid
-              triggerAlgorithm={triggerAlgorithm}
-              algorithm={algorithm}
-              resetGrid={resetGrid}
-            ></Grid>
+            <Route exact path="/">
+              <Grid
+                triggerAlgorithm={triggerAlgorithm}
+                algorithm={algorithm}
+                resetGrid={resetGrid}
+              ></Grid>
+            </Route>
+          </div>
+          <div>
+            <Route exact path="/SortingVisualize">
+              <Sorting></Sorting>
+            </Route>
           </div>
         </div>
       </Router>

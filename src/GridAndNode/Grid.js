@@ -1,14 +1,15 @@
 import React, { Component } from 'react';
 import Node from './Node'
 import './Grid.css'
-import { visualizeDijkstra as Dijkstra } from './../Dijkstra/DijkstraVisualizer'
-import { DFSVisualizer as DFS } from './../Depth First Search/DFSVisualizer'
-import { visualizeBFS as BFS } from './../Breadth First Search/BFSVisualizer';
-import { visualizeAStar as AStar } from './../A star/AStarVisualizer';
-import { visualizeGreadyBFS as GreadyBFS } from './../Gready Best First Search/GreadyBFS';
-import { visualizeSwarm as swarm } from './../Swarm/SwarmVisualizer';
-import { recursiveDivision as createMaze } from '../../Maze/RecursiveDivision';
-class DijkstraAlgo extends Component {
+import { visualizeDijkstra as Dijkstra } from '../pathFinding/Dijkstra/DijkstraVisualizer'
+import { DFSVisualizer as DFS } from '../pathFinding/Depth First Search/DFSVisualizer'
+import { visualizeBFS as BFS } from '../pathFinding/Breadth First Search/BFSVisualizer';
+import { visualizeAStar as AStar } from '../pathFinding/A star/AStarVisualizer';
+import { visualizeGreadyBFS as GreadyBFS } from '../pathFinding/Gready Best First Search/GreadyBFS';
+import { visualizeSwarm as swarm } from '../pathFinding/Swarm/SwarmVisualizer';
+import { recursiveDivision as createMaze } from '../Maze/RecursiveDivision';
+
+class Grid extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -210,7 +211,7 @@ class DijkstraAlgo extends Component {
                 <div className="grid">
                     {grid.map((row, rowIdx) => {
                         return (
-                            <div key={rowIdx}>
+                            <div key={rowIdx} className="row">
                                 {row.map((node, nodeIdx) => {
                                     const { row, col, isFinish, isStart, isWall, isWeight } = node;
                                     return (
@@ -240,7 +241,7 @@ class DijkstraAlgo extends Component {
         )
     }
 }
-export default DijkstraAlgo;
+export default Grid ;
 
 const getInitialGrid = () => {
     const grid = [];
