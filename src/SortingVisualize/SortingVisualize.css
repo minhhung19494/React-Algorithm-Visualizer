@@ -1,3 +1,6 @@
+.listBarChart{
+    display: inline-block;
+}
 .barChart{
     display: inline-block;
     border: solid 1px wheat;
