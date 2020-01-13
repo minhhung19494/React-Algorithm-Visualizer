@@ -3,30 +3,39 @@ import './SortingVisualize.css';
 import { newBubbleSort as bubbleSort } from './Algorithm/BubbleSort';
 import { selectionSortAlgo as selectionSort } from './Algorithm/SelectionSort'
 import { mergeSortAlgo as mergeSort } from './Algorithm/MergeSort'
-
+import { quickSortAlgo as quickSort } from './Algorithm/QuickSort'
+import { heapSortAlgo as heapSort } from './Algorithm/HeapSort'
 class sortingVisualizer extends Component {
     constructor(props) {
         super(props);
         this.state = {
             arrayNumber: [],
-            numOfBar: null
+            numOfBar: 100
         }
     }
     componentDidMount = () => {
-        this.createRandomArray(this.state.numOfBar);
+        this.createArray(this.state.numOfBar);
     }
     componentDidUpdate = () => {
 
     }
-
-    createRandomArray = (numOfBar) => {
+    createArray = (numOfBar) => {
         const arr = [];
         for (let i = 0; i < numOfBar; i++) {
             let num = Math.floor(Math.random() * (500 - 10) + 10);
             arr.push(num);
         }
         this.setState({ arrayNumber: arr });
+    }
 
+    createRandomArray = () => {
+        const {numOfBar} = this.state;
+        this.createArray(numOfBar);
+        if (numOfBar !== null) {
+            for (let i = 0; i < numOfBar; i++) {
+                document.getElementById(`bar-${i}`).className = 'barChart';
+            }
+        }
     }
     visualizeBubbleSort = () => {
         const { arrayNumber } = this.state;
@@ -93,9 +102,60 @@ class sortingVisualizer extends Component {
             }, 20 * i + 20)
         }
     }
+    visualizeQuickSort = () => {
+        const { arrayNumber } = this.state;
+        const animateArr = quickSort([...arrayNumber]);
+        for (let i = 0; i < animateArr.length; i++) {
+            setTimeout(() => {
+                if (animateArr[i].state === 'partionning') {
+                    document.getElementById(`bar-${animateArr[i].runningPoint}`).className = 'barChart compare';
+                    document.getElementById(`bar-${animateArr[i].pivotPoint}`).className = 'barChart pivot';
+                    document.getElementById(`bar-${animateArr[i].comparePoint}`).className = 'barChart compare';
+                    this.setState({ arrayNumber: animateArr[i].newArray });
+                } else if (animateArr[i].state === 'partioned') {
+                    document.getElementById(`bar-${animateArr[i].pivotPoint}`).className = 'barChart finished'
+                }
+                else if (animateArr[i].state === 'finish') {
+                    document.getElementById(`bar-${animateArr[i].finishPoint}`).className = 'barChart finished'
+                }
+            }, 20 * i);
+            setTimeout(() => {
+                if (animateArr[i].state === 'partionning') {
+                    document.getElementById(`bar-${animateArr[i].runningPoint}`).className = 'barChart';
+                    document.getElementById(`bar-${animateArr[i].comparePoint}`).className = 'barChart';
+                    this.setState({ arrayNumber: animateArr[i].newArray });
+                }
+            }, 20 * i + 20);
+
+        }
+    }
+    visualizeHeapSort = () => {
+        const { arrayNumber } = this.state;
+        const animateArr = heapSort([...arrayNumber]);
+        console.log(animateArr);
+        for (let i = 0; i < animateArr.length; i++) {
+            setTimeout(() => {
+                if (animateArr[i].state === 'finish') {
+                    document.getElementById(`bar-${animateArr[i].finish}`).className = 'barChart finished';
+                    this.setState({ arrayNumber: animateArr[i].newArray });
+                } else if (animateArr[i].state === 'heapify') {
+                    console.log(animateArr[i].largestPoint);
+                    document.getElementById(`bar-${animateArr[i].largestPoint}`).className = 'barChart pivot';
+                    document.getElementById(`bar-${animateArr[i].comparePoint[0]}`).className = 'barChart compare';
+                    document.getElementById(`bar-${animateArr[i].comparePoint[1]}`).className = 'barChart compare';
+                    this.setState({ arrayNumber: animateArr[i].newArray });
+                    setTimeout(() => {
+                        document.getElementById(`bar-${animateArr[i].largestPoint}`).className = 'barChart';
+                        document.getElementById(`bar-${animateArr[i].comparePoint[0]}`).className = 'barChart';
+                        document.getElementById(`bar-${animateArr[i].comparePoint[1]}`).className = 'barChart';
+                    }, 160)
+                }
+            }, 200 * i);
+        }
+    }
     setNumOfBar = (e) => {
-        this.setState({ numOfBar: e.target.value > 500 ? 500 : e.target.value });
-        this.createRandomArray(e.target.value > 500 ? 500 : e.target.value);
+        this.setState({ numOfBar: e.target.value > 250 ? 250 : e.target.value });
+        this.createArray(e.target.value > 250 ? 250 : e.target.value);
     }
     render() {
 
@@ -108,6 +168,8 @@ class sortingVisualizer extends Component {
                     <button onClick={this.visualizeBubbleSort}>Bubble Sort</button>
                     <button onClick={this.visualizeSelectionSort}>Selection Sort</button>
                     <button onClick={this.visualizeMergeSort}>MergeSort</button>
+                    <button onClick={this.visualizeQuickSort}>QuickSort</button>
+                    <button onClick={this.visualizeHeapSort}>HeapSort</button>
                     <label>Please insert number of array
                         <input className="text" name="numOfBar" onChange={this.setNumOfBar} value={numOfBar} />
                     </label>
