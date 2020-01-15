@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import Node from './Node'
 import './Grid.css'
-import { visualizeDijkstra as Dijkstra } from '../pathFinding/Dijkstra/DijkstraVisualizer'
-import { DFSVisualizer as DFS } from '../pathFinding/Depth First Search/DFSVisualizer'
-import { visualizeBFS as BFS } from '../pathFinding/Breadth First Search/BFSVisualizer';
-import { visualizeAStar as AStar } from '../pathFinding/A star/AStarVisualizer';
-import { visualizeGreadyBFS as GreadyBFS } from '../pathFinding/Gready Best First Search/GreadyBFS';
-import { visualizeSwarm as swarm } from '../pathFinding/Swarm/SwarmVisualizer';
-import { recursiveDivision as createMaze } from '../Maze/RecursiveDivision';
+import { visualizeDijkstra as Dijkstra } from '../Dijkstra/DijkstraVisualizer'
+import { DFSVisualizer as DFS } from '../Depth First Search/DFSVisualizer'
+import { visualizeBFS as BFS } from '../Breadth First Search/BFSVisualizer';
+import { visualizeAStar as AStar } from '../A star/AStarVisualizer';
+import { visualizeGreadyBFS as GreadyBFS } from '../Gready Best First Search/GreadyBFS';
+import { visualizeSwarm as swarm } from '../Swarm/SwarmVisualizer';
+import { recursiveDivision as createMaze } from '../../Maze/RecursiveDivision';
 
 class Grid extends Component {
     constructor(props) {
@@ -18,9 +18,8 @@ class Grid extends Component {
             selectingWeight: false,
             selectingStartNode: false,
             selectingFinishNode: false,
-            startNode: {},
-            finishNode: {},
-            ctrIsPress: false,
+            startNode: { row: 10, col: 15 },
+            finishNode: { row: 10, col: 40 },
         }
     }
 
@@ -31,26 +30,25 @@ class Grid extends Component {
 
     componentDidUpdate(prevProps) {
         if (prevProps.triggerAlgorithm !== this.props.triggerAlgorithm) {
-            console.log('hasChange');
             if (this.props.triggerAlgorithm) {
                 switch (this.props.algorithm) {
                     case 'Dijkstra':
-                        this.visualizeDijkstra();
+                        this.visualizeDijkstra(this.props.speed);
                         break;
                     case 'A star':
-                        this.visualizeAStar();
+                        this.visualizeAStar(this.props.speed);
                         break;
                     case 'Depth First Search':
-                        this.visualizeDFS();
+                        this.visualizeDFS(this.props.speed);
                         break;
                     case 'Breadth First Search':
-                        this.visualizeBFS();
+                        this.visualizeBFS(this.props.speed);
                         break;
                     case 'Gready Best First Search':
-                        this.visualizeGreadyBFS();
+                        this.visualizeGreadyBFS(this.props.speed);
                         break;
                     case 'Swarm':
-                        this.visualizeSwarm();
+                        this.visualizeSwarm(this.props.speed);
                         break;
                     default:
                         break;
@@ -88,26 +86,14 @@ class Grid extends Component {
         this.setState({ selectingWeight: !this.state.selectingWeight });
         console.log(this.state.selectingWeight);
     }
-    // selectWeight = () => {
-    //     window.onkeydown = (e) => {
-    //         if (e.keyCode === 87) {
-    //             this.setState({ selectingWeight: true });
-    //         };
-    //     }
-    //     window.onkeyup = (e) => {
-    //         this.setState({ selectWeight: false });
-    //     }
-    // }
 
     handleMouseDown = (row, col) => {
-        if (this.state.selectingStartNode) {
-            this.setState({ startNode: { row, col } });
-            this.setState({ selectingStartNode: false });
+        if (row === this.state.startNode.row && col === this.state.startNode.col) {
+            this.setState({ selectingStartNode: true });
             return
         };
-        if (this.state.selectingFinishNode) {
-            this.setState({ finishNode: { row, col } });
-            this.setState({ selectingFinishNode: false });
+        if (row === this.state.finishNode.row && col === this.state.finishNode.col) {
+            this.setState({ selectingFinishNode: true });
             return
         };
         this.setState({ mouseIsPress: true });
@@ -124,13 +110,17 @@ class Grid extends Component {
 
     handleMouseEnter = (row, col) => {
         if (this.state.selectingStartNode) {
-            const newGridwithStartNode = getNewGridWithStartNode(this.state.grid, row, col);
-            this.setState({ grid: newGridwithStartNode });
+            this.state.grid[row][col].isStart = true;
+            this.state.startNode.row = row;
+            this.state.startNode.col = col;
+            document.getElementById(`node-${row}-${col}`).className = 'Node node-start'
             return;
         }
         if (this.state.selectingFinishNode) {
-            const newGridwithFinishNode = getNewGridWithFinishNode(this.state.grid, row, col);
-            this.setState({ grid: newGridwithFinishNode });
+            this.state.grid[row][col].isFinish = true;
+            this.state.finishNode.row = row;
+            this.state.finishNode.col = col;
+            document.getElementById(`node-${row}-${col}`).className = 'Node node-finish'
             return;
         }
         if (this.state.selectingWeight && this.state.mouseIsPress) {
@@ -140,54 +130,54 @@ class Grid extends Component {
         }
         if (this.state.mouseIsPress) {
             this.state.grid[row][col].isWall = !this.state.grid[row][col].isWall;
-            if (document.getElementById(`node-${row}-${col}`).className == 'Node node-wall') {
+            if (document.getElementById(`node-${row}-${col}`).className === 'Node node-wall') {
                 document.getElementById(`node-${row}-${col}`).className = 'Node'
             } else {
                 document.getElementById(`node-${row}-${col}`).className = 'Node node-wall';
-                // const newGrid = getNewGrid(this.state.grid, row, col);
-                // this.setState({ grid: newGrid });
             }
         }
     }
     handleMouseLeave = (row, col) => {
         if (this.state.selectingStartNode) {
-            const newGridwithStartNode = getNewGridWithStartNode(this.state.grid, row, col);
-            this.setState({ grid: newGridwithStartNode });
+            this.state.grid[row][col].isStart = false;
+            document.getElementById(`node-${row}-${col}`).className = 'Node'
             return
         }
         if (this.state.selectingFinishNode) {
-            const newGridwithFinishNode = getNewGridWithFinishNode(this.state.grid, row, col);
-            this.setState({ grid: newGridwithFinishNode });
+            this.state.grid[row][col].isFinish = false;
+            document.getElementById(`node-${row}-${col}`).className = 'Node'
+            return
         }
     }
     handleMouseUp = (row, col) => {
         this.setState({ mouseIsPress: false });
+        this.setState({ selectingStartNode: false });
+        this.setState({selectingFinishNode:false});
     }
 
-    visualizeDijkstra = () => {
+    visualizeDijkstra = (speed) => {
         const { grid, startNode, finishNode } = this.state;
-        Dijkstra(grid, startNode, finishNode);
-        console.log(this.state.grid);
+        Dijkstra(grid, startNode, finishNode, speed);
     }
-    visualizeDFS = () => {
+    visualizeDFS = (speed) => {
         const { grid, startNode, finishNode } = this.state;
-        DFS(grid, startNode, finishNode);
+        DFS(grid, startNode, finishNode, speed);
     }
-    visualizeBFS = () => {
+    visualizeBFS = (speed) => {
         const { grid, startNode, finishNode } = this.state;
-        BFS(grid, startNode, finishNode);
+        BFS(grid, startNode, finishNode, speed);
     }
-    visualizeAStar = () => {
+    visualizeAStar = (speed) => {
         const { grid, startNode, finishNode } = this.state;
-        AStar(grid, startNode, finishNode);
+        AStar(grid, startNode, finishNode, speed);
     }
-    visualizeGreadyBFS = () => {
+    visualizeGreadyBFS = (speed) => {
         const { grid, startNode, finishNode } = this.state;
-        GreadyBFS(grid, startNode, finishNode);
+        GreadyBFS(grid, startNode, finishNode, speed);
     }
-    visualizeSwarm = () => {
+    visualizeSwarm = (speed) => {
         const { grid, startNode, finishNode } = this.state;
-        swarm(grid, startNode, finishNode);
+        swarm(grid, startNode, finishNode, speed);
     }
     visualizeMaze = () => {
         const { grid, startNode, finishNode } = this.state;
@@ -241,7 +231,7 @@ class Grid extends Component {
         )
     }
 }
-export default Grid ;
+export default Grid;
 
 const getInitialGrid = () => {
     const grid = [];
@@ -259,8 +249,8 @@ const createNode = (row, col) => {
     return {
         row,
         col,
-        isStart: false,
-        isFinish: false,
+        isStart: row === 10 && col === 15 ? true : false,
+        isFinish: row === 10 && col === 40 ? true : false,
         isWall: false,
         distance: Infinity,
         previousNode: null,
@@ -279,26 +269,6 @@ const getNewGrid = (grid, row, col) => {
         isWall: !node.isWall
     }
     newGrid[row][col].isWall = true;
-    return newGrid;
-}
-const getNewGridWithStartNode = (grid, row, col) => {
-    const newGrid = grid.slice();
-    const node = newGrid[row][col];
-    const newNode = {
-        ...node,
-        isStart: !node.isStart
-    }
-    newGrid[row][col] = newNode;
-    return newGrid;
-}
-const getNewGridWithFinishNode = (grid, row, col) => {
-    const newGrid = grid.slice();
-    const node = newGrid[row][col];
-    const newNode = {
-        ...node,
-        isFinish: !node.isFinish
-    }
-    newGrid[row][col] = newNode;
     return newGrid;
 }
 const getNewGridWithWeight = (grid, row, col) => {

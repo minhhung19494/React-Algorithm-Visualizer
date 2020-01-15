@@ -9,7 +9,7 @@
     background-color: blue;
 }
 .node-finish{
-    background-image: url("../static/finish.svg");
+    background-image: url("../../static/finish.svg");
     background-size:contain;
 }
 @keyframes wallAnimation{

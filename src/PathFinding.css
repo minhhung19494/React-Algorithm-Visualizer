@@ -1,0 +1,8 @@
+.navbar{
+    text-align: center;
+    background-color: rgb(48, 223, 121);
+    font-weight: bolder;
+}
+.navbar a{
+    color: white;
+}
