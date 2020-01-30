@@ -88,6 +88,8 @@ class Grid extends Component {
     }
 
     handleMouseDown = (row, col) => {
+        console.log('mouseDown');
+        this.state.mouseIsPress = true;
         if (row === this.state.startNode.row && col === this.state.startNode.col) {
             this.setState({ selectingStartNode: true });
             return
@@ -96,15 +98,25 @@ class Grid extends Component {
             this.setState({ selectingFinishNode: true });
             return
         };
-        this.setState({ mouseIsPress: true });
 
         if (this.state.selectingWeight) {
-            const newGridwithWeight = getNewGridWithWeight(this.state.grid, row, col);
-            this.setState({ grid: newGridwithWeight });
+            this.state.grid[row][col].isWeight = !this.state.grid[row][col].isWeight;
+            if (document.getElementById(`node-${row}-${col}`).className === 'Node node-weight') {
+                document.getElementById(`node-${row}-${col}`).className = 'Node'
+            } else {
+                document.getElementById(`node-${row}-${col}`).className = 'Node node-weight';
+            }
+            return
+        } else {
+            console.log('mousedown');
+            this.state.grid[row][col].isWall = !this.state.grid[row][col].isWall;
+            if (document.getElementById(`node-${row}-${col}`).className === 'Node node-wall') {
+                document.getElementById(`node-${row}-${col}`).className = 'Node'
+            } else {
+                document.getElementById(`node-${row}-${col}`).className = 'Node node-wall';
+            }
             return
         }
-        const newGrid = getNewGrid(this.state.grid, row, col);
-        this.setState({ grid: newGrid });
     }
 
 
@@ -124,9 +136,13 @@ class Grid extends Component {
             return;
         }
         if (this.state.selectingWeight && this.state.mouseIsPress) {
-            const newGridwithWeight = getNewGridWithWeight(this.state.grid, row, col);
-            this.setState({ grid: newGridwithWeight });
-            return
+            this.state.grid[row][col].isWeight = !this.state.grid[row][col].isWeight;
+            if (document.getElementById(`node-${row}-${col}`).className === 'Node node-weight') {
+                document.getElementById(`node-${row}-${col}`).className = 'Node'
+            } else {
+                document.getElementById(`node-${row}-${col}`).className = 'Node node-weight';
+            }
+            return;
         }
         if (this.state.mouseIsPress) {
             this.state.grid[row][col].isWall = !this.state.grid[row][col].isWall;
@@ -135,9 +151,11 @@ class Grid extends Component {
             } else {
                 document.getElementById(`node-${row}-${col}`).className = 'Node node-wall';
             }
+            return;
         }
     }
     handleMouseLeave = (row, col) => {
+        console.log('mouseleave');
         if (this.state.selectingStartNode) {
             this.state.grid[row][col].isStart = false;
             document.getElementById(`node-${row}-${col}`).className = 'Node'
@@ -150,9 +168,9 @@ class Grid extends Component {
         }
     }
     handleMouseUp = (row, col) => {
-        this.setState({ mouseIsPress: false });
-        this.setState({ selectingStartNode: false });
-        this.setState({selectingFinishNode:false});
+        this.state.mouseIsPress = false;
+        this.state.selectingStartNode = false;
+        this.state.selectingFinishNode = false;
     }
 
     visualizeDijkstra = (speed) => {
@@ -193,9 +211,6 @@ class Grid extends Component {
         const { grid, mouseIsPress } = this.state;
         return (
             <div className="main">
-
-                <button type="button" className="btn btn-default" onClick={this.setStartNode}>Select start</button>
-                <button type="button" className="btn btn-default" onClick={this.setFinishNode}>Select finish</button>
                 <button type="button" className="btn btn-default" onClick={this.selectWeight}>Select Weight</button>
                 <button type="button" className="btn btn-default" onClick={this.visualizeMaze}>Create Maze</button>
                 <div className="grid">
@@ -213,8 +228,6 @@ class Grid extends Component {
                                             isStart={isStart}
                                             isWall={isWall}
                                             isWeight={isWeight}
-                                            onClick={this.onClick}
-                                            mouseIsPress={mouseIsPress}
                                             onMouseEnter={this.handleMouseEnter}
                                             onMouseDown={this.handleMouseDown}
                                             onMouseUp={this.handleMouseUp}
@@ -260,24 +273,4 @@ const createNode = (row, col) => {
         swarmIdx: Infinity,
         fullDistance: Infinity,
     }
-}
-const getNewGrid = (grid, row, col) => {
-    const newGrid = grid.slice();
-    const node = newGrid[row][col];
-    const newNode = {
-        ...node,
-        isWall: !node.isWall
-    }
-    newGrid[row][col].isWall = true;
-    return newGrid;
-}
-const getNewGridWithWeight = (grid, row, col) => {
-    const newGrid = grid.slice();
-    const node = newGrid[row][col];
-    const newNode = {
-        ...node,
-        isWeight: !node.isWeight
-    }
-    newGrid[row][col] = newNode;
-    return newGrid;
 }

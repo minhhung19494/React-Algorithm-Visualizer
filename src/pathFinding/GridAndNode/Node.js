@@ -2,6 +2,24 @@ import React, {Component} from 'react';
 import './Node.css'
 
 class Node extends Component {
+    constructor(props){
+        super(props);
+        this.state = {
+            row: this.props.row,
+            col: this.props.col
+        }
+    }
+    handleMouseDown = (e)=>{
+        const { row, col} = this.state;
+        this.props.onMouseDown(row,col);
+    }
+    hanldeMouseEnter = (e)=>{
+        const {row, col} = this.state;
+        this.props.onMouseEnter(row,col);
+    }
+    handleMouseLeave = (e)=>{
+        
+    }
 
     render(){
         const {
@@ -21,10 +39,10 @@ class Node extends Component {
         return(
         <div 
             className={`Node ${extraClassName}`} 
-            onMouseEnter={()=>onMouseEnter(row,col)}
-            onMouseDown={()=>onMouseDown(row,col)}
+            onMouseEnter={this.hanldeMouseEnter}
+            onMouseDown={this.handleMouseDown}
             onMouseUp={()=>onMouseUp(row,col)}
-            onMouseLeave={()=>onMouseLeave(row,col)}
+            onMouseLeave={this.handleMouseLeave}
             id={`node-${row}-${col}`}>
         </div>
         )

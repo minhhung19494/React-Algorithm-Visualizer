@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './PathFinding.css';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
-import Grid from './pathFinding/GridAndNode/Grid'
+import Grid from './GridAndNode/Grid'
 
 
 class PathFinding extends Component {
@@ -11,7 +11,7 @@ class PathFinding extends Component {
       algorithm: null,
       triggerAlgorithm: false,
       resetGrid: false,
-      speed: 5
+      speed: 20
     }
   }
 
