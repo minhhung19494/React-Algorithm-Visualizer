@@ -1,0 +1,23 @@
+{
+  "files": {
+    "main.css": "/algo_demo/static/css/main.52e6c7eb.chunk.css",
+    "main.js": "/algo_demo/static/js/main.8d065802.chunk.js",
+    "main.js.map": "/algo_demo/static/js/main.8d065802.chunk.js.map",
+    "runtime-main.js": "/algo_demo/static/js/runtime-main.83f0cdc6.js",
+    "runtime-main.js.map": "/algo_demo/static/js/runtime-main.83f0cdc6.js.map",
+    "static/js/2.fa4a2c80.chunk.js": "/algo_demo/static/js/2.fa4a2c80.chunk.js",
+    "static/js/2.fa4a2c80.chunk.js.map": "/algo_demo/static/js/2.fa4a2c80.chunk.js.map",
+    "index.html": "/algo_demo/index.html",
+    "precache-manifest.d726c1622cf93a8f91797eb5ff568593.js": "/algo_demo/precache-manifest.d726c1622cf93a8f91797eb5ff568593.js",
+    "service-worker.js": "/algo_demo/service-worker.js",
+    "static/css/main.52e6c7eb.chunk.css.map": "/algo_demo/static/css/main.52e6c7eb.chunk.css.map",
+    "static/js/2.fa4a2c80.chunk.js.LICENSE": "/algo_demo/static/js/2.fa4a2c80.chunk.js.LICENSE",
+    "static/media/Node.css": "/algo_demo/static/media/finish.8890ac7b.svg"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.83f0cdc6.js",
+    "static/js/2.fa4a2c80.chunk.js",
+    "static/css/main.52e6c7eb.chunk.css",
+    "static/js/main.8d065802.chunk.js"
+  ]
+}
