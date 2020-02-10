@@ -42,7 +42,7 @@
 .node-visited{
     background-color: yellow;
     animation-name: visitedAnimation ;
-    animation-duration: 1.5s;
+    animation-duration: 2s;
     animation-timing-function: ease-out;
     /* animation-direction: alternate; */
     animation-iteration-count: 1;

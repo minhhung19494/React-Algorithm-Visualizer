@@ -9,17 +9,6 @@ class Node extends Component {
             col: this.props.col
         }
     }
-    handleMouseDown = (e)=>{
-        const { row, col} = this.state;
-        this.props.onMouseDown(row,col);
-    }
-    hanldeMouseEnter = (e)=>{
-        const {row, col} = this.state;
-        this.props.onMouseEnter(row,col);
-    }
-    handleMouseLeave = (e)=>{
-        
-    }
 
     render(){
         const {
@@ -39,10 +28,10 @@ class Node extends Component {
         return(
         <div 
             className={`Node ${extraClassName}`} 
-            onMouseEnter={this.hanldeMouseEnter}
-            onMouseDown={this.handleMouseDown}
+            onMouseEnter={()=>onMouseEnter(row,col)}
+            onMouseDown={()=>onMouseDown(row,col)}
             onMouseUp={()=>onMouseUp(row,col)}
-            onMouseLeave={this.handleMouseLeave}
+            onMouseLeave={()=>onMouseLeave(row,col)}
             id={`node-${row}-${col}`}>
         </div>
         )

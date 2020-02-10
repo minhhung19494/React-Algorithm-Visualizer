@@ -1,0 +1,1 @@
+export const PUBLIC_URL = "https://minhhung19494.github.io/algo_demo"

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import './SortingVisualize.css';
+import { Link } from 'react-router-dom'
 import { newBubbleSort as bubbleSort } from './Algorithm/BubbleSort';
 import { selectionSortAlgo as selectionSort } from './Algorithm/SelectionSort'
 import { mergeSortAlgo as mergeSort } from './Algorithm/MergeSort'
@@ -11,7 +12,9 @@ class sortingVisualizer extends Component {
         super(props);
         this.state = {
             arrayNumber: [],
-            numOfBar: 100,
+            noBarCache: null,
+            numOfBar: 50,
+            algorithmName: null,
             sortingAlgorithm: null,
             speed: 60
         }
@@ -31,7 +34,8 @@ class sortingVisualizer extends Component {
         this.setState({ arrayNumber: arr });
     }
 
-    createRandomArray = () => {
+    createRandomArray = (e) => {
+        e.preventDefault()
         const { numOfBar } = this.state;
         this.createArray(numOfBar);
         if (numOfBar !== null) {
@@ -49,7 +53,6 @@ class sortingVisualizer extends Component {
             if (i !== 0 && i % (tmp) === 0) {
                 j++;
                 tmp = tmp + arrayNumber.length - j;
-                console.log(animateArr[i][0], i)
                 setTimeout(() => {
                     document.getElementById(`bar-${animateArr[i][0]}`).className = 'barChart finished';
                 }, speed * i)
@@ -81,7 +84,7 @@ class sortingVisualizer extends Component {
                     document.getElementById(`bar-${animateArr[i].barCompare[0]}`).className = 'barChart compare';
                     document.getElementById(`bar-${animateArr[i].barCompare[1]}`).className = 'barChart compare';
 
-                }, 20 * i);
+                }, speed * i);
                 setTimeout(() => {
                     document.getElementById(`bar-${animateArr[i].barCompare[0]}`).className = 'barChart';
                     document.getElementById(`bar-${animateArr[i].barCompare[1]}`).className = 'barChart';
@@ -155,21 +158,14 @@ class sortingVisualizer extends Component {
             }, speed * i);
         }
     }
-    setNumOfBar = (e) => {
-        let numBar = e.target.value;
-        if (numBar === null || numBar <= 10) {
-            this.setState({ numOfBar: 10 });
-            numBar = 10;
-        } else {
-            this.setState({ numOfBar: numBar > 250 ? 250 : numBar });
-            numBar = numBar > 250 ? 250 : numBar;
-        }
-        this.createArray(numBar);
-    }
+
     selectAlgo = (e) => {
+        e.preventDefault();
         this.setState({ sortingAlgorithm: e.target.name });
+        this.setState({algorithmName: e.target.text})
     }
-    startSorting = () => {
+    startSorting = (e) => {
+        e.preventDefault();
         const { sortingAlgorithm } = this.state;
         switch (sortingAlgorithm) {
             case 'QuickSort':
@@ -191,66 +187,76 @@ class sortingVisualizer extends Component {
                 alert('Please select Algorithm');
         }
     }
-    selectSpeed = (speed) => {
-        this.setState({ speed: speed })
+    selectSpeed = (e) => {
+        e.preventDefault()
+        const { name } = e.target
+        switch (name) {
+            case 'fast':
+                this.setState({ speed: 30 });
+                break;
+            case 'medium':
+                this.setState({ speed: 60 });
+                break;
+            case 'slow':
+                this.setState({ speed: 100 });
+                break;
+        }
+    }
+    handleOnChange = (e) => {
+        this.setState({ noBarCache: e.target.value })
+    }
+    setNumOfBar = (e) => {
+        e.preventDefault();
+        const { noBarCache } = this.state
+        if (noBarCache == null || noBarCache == 0) {
+            alert("Please insert number of Bar !")
+            return
+        }
+        this.setState({ numOfBar: noBarCache });
+        this.createArray(noBarCache);
     }
     render() {
 
-        const { arrayNumber, numOfBar } = this.state;
-
+        const { arrayNumber, numOfBar,algorithmName} = this.state;
         return (
             <div className="SortingVisualizer">
                 <div className="navbar">
-                    <a className="navbar-brand" href="/">Home</a>
-                    <a className="navbar-brand" href="/SortingVisualizer">Sorting Visualizer</a>
-                    <ul className="nav navbar-nav">
-                        <li className="dropdown">
-                            <a className="dropdown-toggle" data-toggle="dropdown" href="#">Algorithms</a>
+                    <Link className="navbar-brand" to='/'>Home</Link>
+                    <Link className="navbar-brand" to="/PathFinding">PathFinding Visualizer</Link>
+                    <ul className="nav nav-pill nav-justified">
+                        <li className="nav-item dropdown">
+                            <a className="dropdown-toggle" data-toggle="dropdown" href="#">Algorithms<span className="caret"></span></a>
                             <ul className="dropdown-menu" id="AlgorithmList">
-                                <li className="navbar-nav">
-                                    <a onClick={this.selectAlgo} href="#" name="BubbleSort">Bubble Sort</a>
-                                </li>
-                                <li className="navbar-nav">
-                                    <a onClick={this.selectAlgo} name="SelectionSort" href="#">Selection Sort</a>
-                                </li>
-                                <li className="navbar-nav">
-                                    <a onClick={this.selectAlgo} name="HeapSort" href="#">Heap Sort</a>
-                                </li>
-                                <li className="navbar-nav">
-                                    <a onClick={this.selectAlgo} name="MergeSort" href="#">Merge Sort</a>
-                                </li>
-                                <li className="navbar-nav">
-                                    <a onClick={this.selectAlgo} name="QuickSort" href="#">Quick Sort</a>
-                                </li>
+                                <li><a className="dropdown-item" onClick={this.selectAlgo} name="BubbleSort" href="#">Bubble Sort</a></li>
+                                <li><a className="dropdown-item" onClick={this.selectAlgo} name="SelectionSort" href="#">Selection Sort</a></li>
+                                <li><a className="dropdown-item" onClick={this.selectAlgo} name="HeapSort" href="#">Heap Sort</a></li>
+                                <li><a className="dropdown-item" onClick={this.selectAlgo} name="MergeSort" href="#">Merge Sort</a></li>
+                                <li><a className="dropdown-item" onClick={this.selectAlgo} name="QuickSort" href="#">Quick Sort</a></li>
                             </ul>
                         </li>
-                        <li>
-                            <a className="navbar-brand" onClick={this.startSorting} href="#">Sort</a>
+                        <li className="nav-item main-btn" >
+                            <a onClick={this.startSorting} href="#">{algorithmName !=null ? algorithmName: "Please select algorithm"}</a>
                         </li>
-                        <li>
-                            <a className="dropdow-toggle" data-toggle="dropdown" href="#">Speed</a>
+                        <li className="nav-item">
+                            <a className="dropdow-toggle" data-toggle="dropdown" href="#">Speed <span className="caret"></span></a>
                             <ul className="dropdown-menu">
-                                <li>
-                                    <a onClick={() => { this.selectSpeed(30) }} href="#">Fast</a>
-                                </li>
-                                <li>
-                                    <a onClick={() => { this.selectSpeed(60) }} href="#">Medium</a>
-                                </li>
-                                <li>
-                                    <a onClick={() => { this.selectSpeed(100) }} href="#">Slow</a>
-                                </li>
+                                <li><a className="dropdow-item" onClick={this.selectSpeed} name='fast' href="#">Fast</a></li>
+                                <li><a className="dropdow-item" onClick={this.selectSpeed} name='medium' href="#">Medium</a></li>
+                                <li><a className="dropdow-item" onClick={this.selectSpeed} name='slow' href="#">Slow</a></li>
                             </ul>
                         </li>
-                        <li>
+                        <li className="nav-item">
                             <a onClick={this.createRandomArray} href="#">Create Random Array</a>
                         </li>
+                        <li className="nav-item">
+                            <form onSubmit={this.setNumOfBar} className="navbar-form navbar-left" role="search">
+                                <div className="form-group">
+                                    <input className="form-control" type="text" placeholder="Number of Bars" name="numOfBar" onChange={this.handleOnChange} />
+                                </div>
+                                <button type="submit" className="btn btn-default ml-5"> Send!</button>
+                            </form>
+                        </li>
                     </ul>
-                </div>
-
-                <div>
-                    <label>Please insert number of array
-                        <input className="text" name="numOfBar" onChange={this.setNumOfBar} value={numOfBar} />
-                    </label>
                 </div>
                 <div className="listBarChart" style={{ width: 1500, height: 500 }}>
                     {arrayNumber.map((bar, barIdx) => {

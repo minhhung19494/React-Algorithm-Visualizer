@@ -1,41 +1,36 @@
 import React, { Component } from 'react';
 import './App.css';
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
+import { Route, Link, Switch } from 'react-router-dom';
 import PathFinding from './pathFinding/PathFinding';
 import Sorting from './SortingVisualize/SortingVisualizer'
 
+const BASE_ROUTE = ''
+const NavBar = () => {
+  return (
+    <div className="navbar">
+      <a className="navbar-brand" href='/'>Algorithms Visualizer</a>
+      <ul className="nav navbar-nav">
+        <li>
+          <Link to='/PathFinding'>PathFinding </Link>
+        </li>
+        <li>
+          <Link to='/SortingVisualizer'>Sorting</Link>
+        </li>
+      </ul>
+    </div>
+  );
+}
 
 class App extends Component {
-
   render() {
     return (
-      <Router>
-        <div className="App">
-          <Route exact path="/">
-            <div class="navbar">
-              <a class="navbar-brand" href="/">Algorithms Visualizer</a>
-              <ul class="nav navbar-nav">
-                <li class="active">
-                  <a href="/PathFinding">PathFinding</a>
-                </li>
-                <li>
-                  <a href="/SortingVisualizer">Sorting</a>
-                </li>
-              </ul>
-            </div>
-          </Route>
-          <div className="PathFinding">
-            <Route exact path="/PathFinding">
-              <PathFinding></PathFinding>
-            </Route>
-          </div>
-          <div>
-            <Route exact path="/SortingVisualizer">
-              <Sorting></Sorting>
-            </Route>
-          </div>
-        </div>
-      </Router >
+      <div className="App">
+        <Switch>
+          <Route exact path={`${BASE_ROUTE}/`} component={NavBar} />
+          <Route exact path={`${BASE_ROUTE}/PathFinding`} component={PathFinding} />
+          <Route exact path={`${BASE_ROUTE}/SortingVisualizer`} component={Sorting} />
+        </Switch>
+      </div>
     );
   }
 }

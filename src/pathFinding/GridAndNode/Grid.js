@@ -15,7 +15,6 @@ class Grid extends Component {
         this.state = {
             grid: [],
             mouseIsPress: false,
-            selectingWeight: false,
             selectingStartNode: false,
             selectingFinishNode: false,
             startNode: { row: 10, col: 15 },
@@ -30,46 +29,36 @@ class Grid extends Component {
 
     componentDidUpdate(prevProps) {
         if (prevProps.triggerAlgorithm !== this.props.triggerAlgorithm) {
-            if (this.props.triggerAlgorithm) {
-                switch (this.props.algorithm) {
-                    case 'Dijkstra':
-                        this.visualizeDijkstra(this.props.speed);
-                        break;
-                    case 'A star':
-                        this.visualizeAStar(this.props.speed);
-                        break;
-                    case 'Depth First Search':
-                        this.visualizeDFS(this.props.speed);
-                        break;
-                    case 'Breadth First Search':
-                        this.visualizeBFS(this.props.speed);
-                        break;
-                    case 'Gready Best First Search':
-                        this.visualizeGreadyBFS(this.props.speed);
-                        break;
-                    case 'Swarm':
-                        this.visualizeSwarm(this.props.speed);
-                        break;
-                    default:
-                        break;
-                }
+            switch (this.props.algorithm) {
+                case 'Dijkstra':
+                    this.visualizeDijkstra(this.props.speed);
+                    break;
+                case 'A star':
+                    this.visualizeAStar(this.props.speed);
+                    break;
+                case 'Depth First Search':
+                    this.visualizeDFS(this.props.speed);
+                    break;
+                case 'Breadth First Search':
+                    this.visualizeBFS(this.props.speed);
+                    break;
+                case 'Gready Best First Search':
+                    this.visualizeGreadyBFS(this.props.speed);
+                    break;
+                case 'Swarm':
+                    this.visualizeSwarm(this.props.speed);
+                    break;
+                default:
+                    break;
             }
         }
         if (prevProps.resetGrid !== this.props.resetGrid) {
-            const { grid } = this.state;
-            const newGrid = grid.slice();
-            newGrid.forEach(row => {
-                row.forEach(node => {
-                    node.isVisited = false;
-                    node.previousNode = null;
-                    node.isWall = false;
-                    node.isWeight = false;
-                    node.distance = Infinity;
-                    node.heuristicDistance = Infinity;
-                    node.fullDistance = Infinity
-                })
+            const newGrid = getInitialGrid();
+            this.setState({
+                grid: newGrid,
+                startNode: { row: 10, col: 15 },
+                finishNode: { row: 10, col: 40 },
             });
-            this.setState({ grid: newGrid });
         }
     }
 
@@ -82,13 +71,8 @@ class Grid extends Component {
         this.setState({ selectingStartNode: false });
     }
 
-    selectWeight = () => {
-        this.setState({ selectingWeight: !this.state.selectingWeight });
-        console.log(this.state.selectingWeight);
-    }
-
     handleMouseDown = (row, col) => {
-        console.log('mouseDown');
+        const { grid } = this.state
         this.state.mouseIsPress = true;
         if (row === this.state.startNode.row && col === this.state.startNode.col) {
             this.setState({ selectingStartNode: true });
@@ -99,8 +83,8 @@ class Grid extends Component {
             return
         };
 
-        if (this.state.selectingWeight) {
-            this.state.grid[row][col].isWeight = !this.state.grid[row][col].isWeight;
+        if (this.props.selectingWeight) {
+            grid[row][col].isWeight = !this.state.grid[row][col].isWeight;
             if (document.getElementById(`node-${row}-${col}`).className === 'Node node-weight') {
                 document.getElementById(`node-${row}-${col}`).className = 'Node'
             } else {
@@ -108,8 +92,7 @@ class Grid extends Component {
             }
             return
         } else {
-            console.log('mousedown');
-            this.state.grid[row][col].isWall = !this.state.grid[row][col].isWall;
+            grid[row][col].isWall = !this.state.grid[row][col].isWall;
             if (document.getElementById(`node-${row}-${col}`).className === 'Node node-wall') {
                 document.getElementById(`node-${row}-${col}`).className = 'Node'
             } else {
@@ -121,22 +104,23 @@ class Grid extends Component {
 
 
     handleMouseEnter = (row, col) => {
+        const { grid, startNode, finishNode } = this.state
         if (this.state.selectingStartNode) {
-            this.state.grid[row][col].isStart = true;
-            this.state.startNode.row = row;
-            this.state.startNode.col = col;
+            grid[row][col].isStart = true;
+            startNode.row = row;
+            startNode.col = col;
             document.getElementById(`node-${row}-${col}`).className = 'Node node-start'
             return;
         }
         if (this.state.selectingFinishNode) {
-            this.state.grid[row][col].isFinish = true;
-            this.state.finishNode.row = row;
-            this.state.finishNode.col = col;
+            grid[row][col].isFinish = true;
+            finishNode.row = row;
+            finishNode.col = col;
             document.getElementById(`node-${row}-${col}`).className = 'Node node-finish'
             return;
         }
-        if (this.state.selectingWeight && this.state.mouseIsPress) {
-            this.state.grid[row][col].isWeight = !this.state.grid[row][col].isWeight;
+        if (this.props.selectingWeight && this.state.mouseIsPress) {
+            grid[row][col].isWeight = !this.state.grid[row][col].isWeight;
             if (document.getElementById(`node-${row}-${col}`).className === 'Node node-weight') {
                 document.getElementById(`node-${row}-${col}`).className = 'Node'
             } else {
@@ -145,7 +129,7 @@ class Grid extends Component {
             return;
         }
         if (this.state.mouseIsPress) {
-            this.state.grid[row][col].isWall = !this.state.grid[row][col].isWall;
+            grid[row][col].isWall = !this.state.grid[row][col].isWall;
             if (document.getElementById(`node-${row}-${col}`).className === 'Node node-wall') {
                 document.getElementById(`node-${row}-${col}`).className = 'Node'
             } else {
@@ -155,14 +139,14 @@ class Grid extends Component {
         }
     }
     handleMouseLeave = (row, col) => {
-        console.log('mouseleave');
+        const { grid } = this.state
         if (this.state.selectingStartNode) {
-            this.state.grid[row][col].isStart = false;
+            grid[row][col].isStart = false;
             document.getElementById(`node-${row}-${col}`).className = 'Node'
             return
         }
         if (this.state.selectingFinishNode) {
-            this.state.grid[row][col].isFinish = false;
+            grid[row][col].isFinish = false;
             document.getElementById(`node-${row}-${col}`).className = 'Node'
             return
         }
@@ -208,10 +192,9 @@ class Grid extends Component {
         };
     }
     render() {
-        const { grid, mouseIsPress } = this.state;
+        const { grid } = this.state;
         return (
             <div className="main">
-                <button type="button" className="btn btn-default" onClick={this.selectWeight}>Select Weight</button>
                 <button type="button" className="btn btn-default" onClick={this.visualizeMaze}>Create Maze</button>
                 <div className="grid">
                     {grid.map((row, rowIdx) => {

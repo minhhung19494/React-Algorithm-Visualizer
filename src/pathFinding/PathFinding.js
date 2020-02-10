@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import './PathFinding.css';
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
+import { Route, Link } from 'react-router-dom';
 import Grid from './GridAndNode/Grid'
+import Switch from 'react-switch'
 
 
 class PathFinding extends Component {
@@ -11,114 +12,136 @@ class PathFinding extends Component {
       algorithm: null,
       triggerAlgorithm: false,
       resetGrid: false,
-      speed: 20
+      speed: 20,
+      selectingWeight: false
     }
   }
 
-  clearPath = () => {
+  clearPath = (e) => {
+    e.preventDefault()
     var el = document.getElementsByClassName('Node');
     for (let i = 0; i < el.length; i++) {
       el[i].classList.remove('node-visited', 'node-shortest-path');
-      this.setState({ triggerAlgorithm: false })
     }
   }
-  clearBoard = (grid) => {
-    var el = document.getElementsByClassName('Node');
-    for (let i = 0; i < el.length; i++) {
-      el[i].classList.remove('node-visited', 'node-shortest-path', 'node-start', 'node-finish', 'node-wall', 'node-wieght');
-    }
-    this.setState({ triggerAlgorithm: false });
-    this.setState({ resetGrid: true });
+  clearBoard = (e) => {
+    e.preventDefault()
+    const { resetGrid } = this.state
+    // var el = document.getElementsByClassName('Node');
+    // for (let i = 0; i < el.length; i++) {
+    //   el[i].classList.remove('node-visited', 'node-shortest-path', 'node-start', 'node-finish', 'node-wall', 'node-weight');
+    // }
+    // this.setState({ triggerAlgorithm: false });
+    this.setState({ resetGrid: !resetGrid });
   }
   selectAlgorithm = (e) => {
     e.preventDefault();
     const { textContent } = e.target;
     this.setState({ algorithm: textContent })
   }
-  triggerAlgo = () => {
-    this.setState({ triggerAlgorithm: true });
-    this.setState({ resetGrid: false })
+  triggerAlgo = (e) => {
+    e.preventDefault();
+    const { triggerAlgorithm, algorithm } = this.state
+    if (algorithm === null) {
+      alert("Please select algorithm")
+      return
+    }
+    this.setState({ triggerAlgorithm: !triggerAlgorithm });
   }
-  selectSpeed = (value) => {
-    this.setState({speed: value})
+  selectSpeed = (e) => {
+    e.preventDefault()
+    const { name } = e.target
+    switch (name) {
+      case 'fast':
+        this.setState({ speed: 30 });
+        break;
+      case 'medium':
+        this.setState({ speed: 60 });
+        break;
+      case 'slow':
+        this.setState({ speed: 100 });
+        break;
+    }
+  }
+  selectWeight = (checked, event, id) => {
+    this.setState({ selectingWeight: checked });
   }
   render() {
-    const { algorithm, triggerAlgorithm, resetGrid, speed } = this.state;
+    const { algorithm, triggerAlgorithm, resetGrid, speed, selectingWeight } = this.state;
     return (
-      <Router>
-        <div className="App">
-          <div className="navbar">
-            <a className="navbar-brand" href="/PathFinding">PathFinding Visualizer</a>
-            <ul className="nav navbar-nav">
-              <li className="dropdown">
-                <a className="dropdown-toggle" data-toggle="dropdown" href="#">Algorithms</a>
-                <ul className="dropdown-menu" id="AlgorithmList">
-                  <li className="navbar-nav">
-                    <a onClick={this.selectAlgorithm} href="#" name="Dijkstra">Dijkstra</a>
-                  </li>
-                  <li className="navbar-nav">
-                    <a onClick={this.selectAlgorithm} name="Depth First Search" href="#">Depth First Search</a>
-                  </li>
-                  <li className="navbar-nav">
-                    <a onClick={this.selectAlgorithm} name="BFS" href="#">Breadth First Search</a>
-                  </li>
-                  <li className="navbar-nav">
-                    <a onClick={this.selectAlgorithm} name="AStar" href="#">A star</a>
-                  </li>
-                  <li className="navbar-nav">
-                    <a onClick={this.selectAlgorithm} name="GreadyBFS" href="#">Gready Best First Search</a>
-                  </li>
-                  <li className="navbar-nav">
-                    <a onClick={this.selectAlgorithm} name="Swarm" href="#">Swarm</a>
-                  </li>
+      <div className="App">
+        <nav className="navbar navbar-fixed-top">
+          <div className='container-fluid'>
+            <div className="nav-header">
+              <Link className="navbar-brand" to='/'>Home</Link>
+              <Link className="navbar-brand" to="/SortingVisualizer">Sorting Visualizer</Link>
+            </div>
+            <ul className="nav nav-pills nav-justified" >
+              <li className="nav-item dropdown">
+                <a className="nav-link dropdown-toggle" data-toggle="dropdown" id="navbarDropdownMenuLink" href="#">Algorithms <span className='caret'></span></a>
+                <ul className="dropdown-menu" id="AlgorithmList" aria-labelledby="navbarDropdownMenuLink">
+                  <li><a className="dropdow-item" onClick={this.selectAlgorithm} name="Dijkstra" href="#">Dijkstra</a></li>
+                  <li><a className="dropdow-item" onClick={this.selectAlgorithm} name="Depth First Search" href="#">Depth First Search</a></li>
+                  <li><a className="dropdow-item" onClick={this.selectAlgorithm} name="BFS" href="#">Breadth First Search</a></li>
+                  <li><a className="dropdow-item" onClick={this.selectAlgorithm} name="AStar" href="#">A star</a></li>
+                  <li><a className="dropdow-item" onClick={this.selectAlgorithm} name="GreadyBFS" href="#">Gready Best First Search</a></li>
+                  <li><a className="dropdow-item" onClick={this.selectAlgorithm} name="Swarm" href="#">Swarm</a></li>
                 </ul>
               </li>
-              <li>
-                <a href="#">Maze & Pattern</a>
-              </li>
-              <li>
-                <a className='navbar-brand' onClick={this.triggerAlgo} href="#">{!algorithm ? 'Please Pick Algorithm' : 'Visualize ' + algorithm} </a>
-              </li>
-              <li>
-                <a onClick={this.clearBoard}>ClearBoard</a>
-              </li>
-              <li>
-                <a onClick={this.clearPath}>Clear Path</a>
-              </li>
-              <li>
-                <a data-toggle="dropdown" href="#">Speed</a>
-                <ul className="dropdown-menu">
-                  <li>
-                    <a onClick={() => this.selectSpeed(3)} href="#">Fast</a>
-                  </li>
-                  <li>
-                    <a onClick={() => this.selectSpeed(60)} href="#">Medium</a>
-                  </li>
-                  <li>
-                    <a onClick={() => this.selectSpeed(100)} href="#">Slow</a>
-                  </li>
+              <li className='nav-item'>
+                <a data-toggle="dropdown" href="#">Select Speed<span className="caret"></span></a>
+                <ul className="nav-item dropdown-menu">
+                  <li><a className="dropdow-item" onClick={this.selectSpeed} name='fast' href="#">Fast</a></li>
+                  <li><a className="dropdow-item" onClick={this.selectSpeed} name='medium' href="#">Medium</a></li>
+                  <li><a className="dropdow-item" onClick={this.selectSpeed} name='slow' href="#">Slow</a></li>
                 </ul>
+              </li>
+              <li className='nav-item main-btn'>
+                <a onClick={this.triggerAlgo} href="#">{!algorithm ? 'Please Pick Algorithm' : 'Visualize ' + algorithm} </a>
+              </li>
+              <li className='nav-item'>
+                <a onClick={this.clearBoard} href="#">ClearBoard</a>
+              </li>
+              <li className='nav-item'>
+                <a onClick={this.clearPath} href="#">Clear Path</a>
+              </li>
+
+              <li className='nav-item' >
+                <div className="selectDiv">
+                  <div className="Box col-md-3">
+                    <Switch
+                      onChange={this.selectWeight}
+                      checked={selectingWeight}
+                      id="normal-switch"
+                      className="checkbox"
+                    />
+                  </div>
+                  <div className="text-inline col-md-9">
+                    <label >Select Weight</label>
+                  </div>
+                </div>
               </li>
             </ul>
           </div>
-          <div id="mainGrid">
-            <div id="mainText">
-            </div>
-            <div id="algorithmDescriptor">
-            </div>
+        </nav>
+        <div id="mainGrid">
+          <div id="mainText">
           </div>
-          <div>
-            <Route exact path="/PathFinding">
-              <Grid
-                triggerAlgorithm={triggerAlgorithm}
-                algorithm={algorithm}
-                resetGrid={resetGrid}
-                speed={speed}
-              ></Grid>
-            </Route>
+          <div id="algorithmDescriptor">
           </div>
         </div>
-      </Router>
+        <div>
+          <Route exact path="/PathFinding">
+            <Grid
+              triggerAlgorithm={triggerAlgorithm}
+              algorithm={algorithm}
+              resetGrid={resetGrid}
+              speed={speed}
+              selectingWeight={selectingWeight}
+            ></Grid>
+          </Route>
+        </div>
+      </div>
     );
   }
 }
