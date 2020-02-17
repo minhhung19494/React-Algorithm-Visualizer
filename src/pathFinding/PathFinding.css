@@ -1,33 +1,69 @@
-.navbar{
-    text-align: center;
-    background-color: rgb(48, 223, 121);
-    font-weight: bolder;
+.Container {
+    margin: auto;
+}
+#myNavBar{
+    float: right;
 }
 .navbar a{
+    font-weight: bolder;
     color: white;
-    font-size: medium;
 }
-.text-inline{
+
+.text-inline {
     margin-top: 12px;
-    color: white;
-    font-weight: bold;
-    text-align: center;
-    vertical-align: middle;
-    display: inline-block;
+    color: #9d9d9d;
 }
-.checkbox{
-    align-self: center;
+@media only screen and (max-width: 1000px) {
+    .nav-item.main-btn a {
+        font-size: small;
+    }
+    .text-inline label{
+        font-size: smaller;
+    }
+    .navbar a {
+        font-size: smaller;
+    }
 }
-.nav-item{
-    vertical-align: middle;
+@media only screen and (min-width: 1000px) {
+    .nav-item.main-btn a {
+        font-size: medium;
+    }
+    .text-inline label{
+        font-size: small;
+    }
+    .navbar a {
+        font-size: small;
+    }
 }
-.main-btn a{
-    font-size: large;
+@media only screen and (min-width: 1170px) {
+    .nav-item.main-btn a {
+        font-size: large;
+    }
+    .text-inline label{
+        font-size: medium;
+    }
+    .navbar a {
+        font-size: medium;
+    }
 }
-.selectDiv{
-    vertical-align: middle;
-    align-items: center;
+.navbar-nav li a{
+    text-align: left;
 }
-label{
+
+#myNavBar{
+    float:none;
+}
+@media only screen and (min-width:1250px){
+    #myNavBar {
+        float: right;
+    }
+}
+
+.selectDiv {
+    float:left;
+    display:flex    
+}
+
+label {
     font-size: medium;
 }

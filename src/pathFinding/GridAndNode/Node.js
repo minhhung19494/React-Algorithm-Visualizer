@@ -22,7 +22,7 @@ class Node extends Component {
             onMouseUp,
             onMouseDown,
             isVisited,
-            isWeight
+            isWeight,
         } = this.props;
         const extraClassName = isFinish ? 'node-finish' : isStart ? 'node-start' : isWall ? 'node-wall' : isVisited ? 'node-visisted' : isWeight ? 'node-weight':'';
         return(
@@ -32,7 +32,8 @@ class Node extends Component {
             onMouseDown={()=>onMouseDown(row,col)}
             onMouseUp={()=>onMouseUp(row,col)}
             onMouseLeave={()=>onMouseLeave(row,col)}
-            id={`node-${row}-${col}`}>
+            id={`node-${row}-${col}`}
+            style={{width:(window.innerWidth-100)/50, height:(window.innerHeight-100)/20}}>
         </div>
         )
     }

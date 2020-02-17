@@ -1,32 +1,36 @@
 .Node {
-    outline: 1px solid rgb(175,216,248);
-    width: 25px;
-    height: 25px;
+    outline: 0.5px solid rgb(175, 216, 248);
     display: inline-block;
     background-color: white;
 }
-.node-start{
+
+.node-start {
     background-color: blue;
 }
-.node-finish{
+
+.node-finish {
     background-image: url("../../static/finish.svg");
-    background-size:contain;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
 }
-@keyframes wallAnimation{
-    0%{
+
+@keyframes wallAnimation {
+    0% {
         transform: scale(.3);
         background-color: brown;
     }
-    50%{
+    50% {
         transform: scale(1.2);
         background-color: brown;
     }
-    100%{
+    100% {
         transform: scale(1.0);
         background-color: brown;
     }
 }
-.node-wall{
+
+.node-wall {
     /* animation-name: wallAnimation; */
     animation-duration: 0.3s;
     animation-timing-function: ease-out;
@@ -36,12 +40,14 @@
     animation-play-state: running;
     background-color: brown;
 }
-.node-weight{
+
+.node-weight {
     background-color: blueviolet;
 }
-.node-visited{
+
+.node-visited {
     background-color: yellow;
-    animation-name: visitedAnimation ;
+    animation-name: visitedAnimation;
     animation-duration: 2s;
     animation-timing-function: ease-out;
     /* animation-direction: alternate; */
@@ -49,24 +55,26 @@
     animation-fill-mode: forwards;
     animation-play-state: running;
 }
-@keyframes visitedAnimation{
-    0%{
+
+@keyframes visitedAnimation {
+    0% {
         transform: scale(.3);
-        background-color: rgba(0,0,66,0.75);
+        background-color: rgba(0, 0, 66, 0.75);
         border-radius: 100%
     }
-    50%{
-        background-color: rgba(17,104,217,075);
+    50% {
+        background-color: rgba(17, 104, 217, 075);
     }
-    75%{
+    75% {
         transform: scale(1.2);
-        background-color: rgba(0,217,159,0.75);
+        background-color: rgba(0, 217, 159, 0.75);
     }
-    100%{
+    100% {
         transform: scale(1.0);
-        background-color: rgba(0,190,218,0.75);
+        background-color: rgba(0, 190, 218, 0.75);
     }
 }
-.node-shortest-path{
+
+.node-shortest-path {
     background-color: yellow;
 }

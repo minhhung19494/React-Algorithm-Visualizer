@@ -7,17 +7,23 @@ import Sorting from './SortingVisualize/SortingVisualizer'
 const BASE_ROUTE = ''
 const NavBar = () => {
   return (
-    <div className="navbar">
-      <a className="navbar-brand" href='/'>Algorithms Visualizer</a>
-      <ul className="nav navbar-nav">
-        <li>
-          <Link to='/PathFinding'>PathFinding </Link>
-        </li>
-        <li>
-          <Link to='/SortingVisualizer'>Sorting</Link>
-        </li>
-      </ul>
-    </div>
+    <nav className="navbar navbar-inverse">
+      <div className="container-fluid">
+        <div className="Header">
+          <a className="navbar-brand" href='/'>Algorithms Visualizer</a>
+        </div>
+        <div className="myNavBar">
+          <ul className="nav navbar-nav">
+            <li>
+              <Link to='/PathFinding'>PathFinding Visualizer </Link>
+            </li>
+            <li>
+              <Link to='/SortingVisualizer'>Sorting Visualizer</Link>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
   );
 }
 

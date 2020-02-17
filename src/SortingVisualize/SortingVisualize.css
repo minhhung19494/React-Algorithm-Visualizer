@@ -3,7 +3,7 @@
 }
 .barChart{
     display: inline-block;
-    border: solid 1px wheat;
+    border: solid 0.5px wheat;
     background-color: red;
 }
 .compare{
@@ -24,3 +24,18 @@
 .ml-5{
     margin-left: 5px;
 }
+.navbar-nav li a{
+    text-align: left;
+}
+.navbar-form{
+    float:left;
+}
+#myNavBar{
+    float:none;
+}
+@media only screen and (min-width:1250px){
+    #myNavBar {
+        float: right;
+    }
+}
+

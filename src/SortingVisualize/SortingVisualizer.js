@@ -153,7 +153,7 @@ class sortingVisualizer extends Component {
                         document.getElementById(`bar-${animateArr[i].largestPoint}`).className = 'barChart';
                         document.getElementById(`bar-${animateArr[i].comparePoint[0]}`).className = 'barChart';
                         document.getElementById(`bar-${animateArr[i].comparePoint[1]}`).className = 'barChart';
-                    }, speed * 0.8)
+                    }, speed * 0.6)
                 }
             }, speed * i);
         }
@@ -162,10 +162,12 @@ class sortingVisualizer extends Component {
     selectAlgo = (e) => {
         e.preventDefault();
         this.setState({ sortingAlgorithm: e.target.name });
-        this.setState({algorithmName: e.target.text})
+        this.setState({ algorithmName: e.target.text })
     }
     startSorting = (e) => {
-        e.preventDefault();
+        if (window.innerWidth < 1250) {
+            e.preventDefault();
+        }
         const { sortingAlgorithm } = this.state;
         switch (sortingAlgorithm) {
             case 'QuickSort':
@@ -212,61 +214,77 @@ class sortingVisualizer extends Component {
             alert("Please insert number of Bar !")
             return
         }
+        if (noBarCache > 500) {
+            alert("Number of Bars must less than 500")
+            return
+        }
         this.setState({ numOfBar: noBarCache });
         this.createArray(noBarCache);
     }
     render() {
 
-        const { arrayNumber, numOfBar,algorithmName} = this.state;
+        const { arrayNumber, numOfBar, algorithmName } = this.state;
         return (
             <div className="SortingVisualizer">
-                <div className="navbar">
-                    <Link className="navbar-brand" to='/'>Home</Link>
-                    <Link className="navbar-brand" to="/PathFinding">PathFinding Visualizer</Link>
-                    <ul className="nav nav-pill nav-justified">
-                        <li className="nav-item dropdown">
-                            <a className="dropdown-toggle" data-toggle="dropdown" href="#">Algorithms<span className="caret"></span></a>
-                            <ul className="dropdown-menu" id="AlgorithmList">
-                                <li><a className="dropdown-item" onClick={this.selectAlgo} name="BubbleSort" href="#">Bubble Sort</a></li>
-                                <li><a className="dropdown-item" onClick={this.selectAlgo} name="SelectionSort" href="#">Selection Sort</a></li>
-                                <li><a className="dropdown-item" onClick={this.selectAlgo} name="HeapSort" href="#">Heap Sort</a></li>
-                                <li><a className="dropdown-item" onClick={this.selectAlgo} name="MergeSort" href="#">Merge Sort</a></li>
-                                <li><a className="dropdown-item" onClick={this.selectAlgo} name="QuickSort" href="#">Quick Sort</a></li>
+                <nav className="navbar navbar-inverse">
+                    <div className="container-fluid">
+                        <div className="navbar-header">
+                            <Link className="navbar-brand" to='/'>Home</Link>
+                            <Link className="navbar-brand" to="/PathFinding">PathFinding Visualizer</Link>
+                            <button type="button" className="navbar-toggle" data-toggle="collapse" data-target="#myNavBar">
+                                <span className="icon-bar"></span>
+                                <span className="icon-bar"></span>
+                                <span className="icon-bar"></span>
+                            </button>
+                        </div>
+                        <div className="collapse navbar-collapse" id="myNavBar">
+                            <ul className="nav navbar-nav">
+                                <li className="nav-item dropdown">
+                                    <a className="dropdown-toggle" data-toggle="dropdown" href="#">Algorithms<span className="caret"></span></a>
+                                    <ul className="dropdown-menu" id="AlgorithmList">
+                                        <li><a className="dropdown-item" onClick={this.selectAlgo} name="BubbleSort" href="#">Bubble Sort</a></li>
+                                        <li><a className="dropdown-item" onClick={this.selectAlgo} name="SelectionSort" href="#">Selection Sort</a></li>
+                                        <li><a className="dropdown-item" onClick={this.selectAlgo} name="HeapSort" href="#">Heap Sort</a></li>
+                                        <li><a className="dropdown-item" onClick={this.selectAlgo} name="MergeSort" href="#">Merge Sort</a></li>
+                                        <li><a className="dropdown-item" onClick={this.selectAlgo} name="QuickSort" href="#">Quick Sort</a></li>
+                                    </ul>
+                                </li>
+                                <li className="nav-item main-btn" >
+                                    <a onClick={this.startSorting} data-toggle="collapse" href={window.innerWidth < 1250 ? "#myNavBar" : "#"}>{algorithmName != null ? algorithmName : "Please select algorithm"}</a>
+                                </li>
+                                <li className="nav-item">
+                                    <a className="dropdow-toggle" data-toggle="dropdown" href="#">Speed <span className="caret"></span></a>
+                                    <ul className="dropdown-menu">
+                                        <li><a className="dropdow-item" onClick={this.selectSpeed} name='fast' href="#">Fast</a></li>
+                                        <li><a className="dropdow-item" onClick={this.selectSpeed} name='medium' href="#">Medium</a></li>
+                                        <li><a className="dropdow-item" onClick={this.selectSpeed} name='slow' href="#">Slow</a></li>
+                                    </ul>
+                                </li>
+                                <li className="nav-item">
+                                    <a onClick={this.createRandomArray} href="#">Create Random Array</a>
+                                </li>
+                                <li className="nav-item">
+                                    <form onSubmit={this.setNumOfBar} className="navbar-form navbar-left" role="search">
+                                        <div className="form-group">
+                                            <input className="form-control" type="text" placeholder="Number of Bars" name="numOfBar" onChange={this.handleOnChange} />
+                                        </div>
+                                        <button type="submit" className="btn btn-default ml-5"> Send!</button>
+                                    </form>
+                                </li>
                             </ul>
-                        </li>
-                        <li className="nav-item main-btn" >
-                            <a onClick={this.startSorting} href="#">{algorithmName !=null ? algorithmName: "Please select algorithm"}</a>
-                        </li>
-                        <li className="nav-item">
-                            <a className="dropdow-toggle" data-toggle="dropdown" href="#">Speed <span className="caret"></span></a>
-                            <ul className="dropdown-menu">
-                                <li><a className="dropdow-item" onClick={this.selectSpeed} name='fast' href="#">Fast</a></li>
-                                <li><a className="dropdow-item" onClick={this.selectSpeed} name='medium' href="#">Medium</a></li>
-                                <li><a className="dropdow-item" onClick={this.selectSpeed} name='slow' href="#">Slow</a></li>
-                            </ul>
-                        </li>
-                        <li className="nav-item">
-                            <a onClick={this.createRandomArray} href="#">Create Random Array</a>
-                        </li>
-                        <li className="nav-item">
-                            <form onSubmit={this.setNumOfBar} className="navbar-form navbar-left" role="search">
-                                <div className="form-group">
-                                    <input className="form-control" type="text" placeholder="Number of Bars" name="numOfBar" onChange={this.handleOnChange} />
-                                </div>
-                                <button type="submit" className="btn btn-default ml-5"> Send!</button>
-                            </form>
-                        </li>
-                    </ul>
-                </div>
-                <div className="listBarChart" style={{ width: 1500, height: 500 }}>
+                        </div>
+                    </div>
+                </nav>
+
+                <div className="listBarChart">
                     {arrayNumber.map((bar, barIdx) => {
                         return (
-                            <div key={barIdx} id={`bar-${barIdx}`} className="barChart" style={{ width: (1500 / numOfBar), height: bar, }}></div>
+                            <div key={barIdx} id={`bar-${barIdx}`} className="barChart" style={{ width: ((window.innerWidth - 100) / numOfBar), height: (bar / 500) * (window.innerHeight - 100), }}></div>
                         )
                     })
                     }
                 </div>
-            </div>
+            </div >
         );
     };
 }

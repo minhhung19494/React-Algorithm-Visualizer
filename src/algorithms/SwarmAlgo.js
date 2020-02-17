@@ -4,7 +4,7 @@ export function swarmAlgo(grid, startNode, finishNode) {
     startNode.distance = 0;
     startNode.heuristicDistance = calculateDistanceBetweenNodes(startNode, finishNode);
     startNode.swarmIdx = 0;
-    startNode.fullDistance = startNode.distance + 0.2*startNode.heuristicDistance + 0.15*startNode.swarmIdx;
+    startNode.fullDistance = startNode.distance + 0.2 * startNode.heuristicDistance + 0.15 * startNode.swarmIdx;
     while (!!unvisitedNode.length) {
         sortNodeByDistance(unvisitedNode)
         const closetNode = unvisitedNode.shift();
@@ -23,23 +23,8 @@ export function swarmAlgo(grid, startNode, finishNode) {
 function updateUnvisitedNeighbors(node, grid, finishNode, visitedNodeInOrder) {
     const neighborNodes = getNeighborNodes(node, grid);
     for (const neighbors of neighborNodes) {
-        // if (neighbors.isVisited) {
-        //     let newDistance = null;
-        //     neighbors.swarmIdx = calculateSwarmIdx(neighbors, visitedNodeInOrder, finishNode);
-        //     if (neighbors.isWeight) {
-        //         newDistance = node.distance + 15;
-        //     } else {
-        //         newDistance = node.distance + 1;
-        //     }
-        //     if (neighbors.distance > newDistance) {
-        //         neighbors.distance = newDistance;
-        //         neighbors.fullDistance = 2*newDistance + neighbors.heuristicDistance + neighbors.swarmIdx;
-        //         neighbors.previousNode = node;
-        //     }
-        // } else {
-            calculateUnvisitedDistance(neighbors, node, finishNode, visitedNodeInOrder);
-            neighbors.previousNode = node;
-        // };
+        calculateUnvisitedDistance(neighbors, node, finishNode, visitedNodeInOrder);
+        neighbors.previousNode = node;
     }
 }
 function calculateUnvisitedDistance(neighbors, node, finishNode, visitedNodeInOrder) {
@@ -50,23 +35,23 @@ function calculateUnvisitedDistance(neighbors, node, finishNode, visitedNodeInOr
     } else {
         neighbors.distance = node.distance + 1;
     }
-    neighbors.fullDistance = neighbors.distance + 0.2*neighbors.heuristicDistance + 0.15*neighbors.swarmIdx;
+    neighbors.fullDistance = neighbors.distance + 0.2 * neighbors.heuristicDistance + 0.15 * neighbors.swarmIdx;
 }
-function calculateSwarmIdx(node, visitedNodeInOrder, finishNode){
+function calculateSwarmIdx(node, visitedNodeInOrder, finishNode) {
     const groupBestLocation = getGroupBestLocation(visitedNodeInOrder, finishNode);
     const swarmIdx = calculateDistanceBetweenNodes(node, groupBestLocation);
     return swarmIdx;
 }
 
-function getGroupBestLocation(visitedNodeInOrder,finishNode){
+function getGroupBestLocation(visitedNodeInOrder, finishNode) {
     let sumRow = null;
     let sumCol = null;
-    for(const node of visitedNodeInOrder){
+    for (const node of visitedNodeInOrder) {
         sumRow += node.row;
         sumCol += node.col;
     }
-    const avgRow = Math.round(((sumRow/visitedNodeInOrder.length)+ finishNode.row)/2);
-    const avgCol = Math.round(((sumCol/visitedNodeInOrder.length)+finishNode.col)/2);
+    const avgRow = Math.round(((sumRow / visitedNodeInOrder.length) + finishNode.row) / 2);
+    const avgCol = Math.round(((sumCol / visitedNodeInOrder.length) + finishNode.col) / 2);
     const groupBestLocation = {
         row: avgRow,
         col: avgCol,
@@ -89,7 +74,7 @@ function getNeighborNodes(node, grid) {
     if (row < grid.length - 1) neighbors.push(grid[row + 1][col]);
     if (col > 0) neighbors.push(grid[row][col - 1]);
     if (col < grid[0].length - 1) neighbors.push(grid[row][col + 1]);
-    return neighbors.filter(neighbor=> !neighbor.isVisited);
+    return neighbors.filter(neighbor => !neighbor.isVisited);
 };
 
 function sortNodeByDistance(unvisitedNode) {

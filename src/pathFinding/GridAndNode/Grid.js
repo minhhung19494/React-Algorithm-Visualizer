@@ -24,25 +24,52 @@ class Grid extends Component {
 
     componentDidMount() {
         const grid = getInitialGrid();
-        this.setState({ grid })
+        this.setState({ grid });
+        const { startNode, finishNode } = this.state;
+        this.props.startNode.row = startNode.row;
+        this.props.startNode.col = startNode.col;
+        this.props.finishNode.row = finishNode.row;
+        this.props.finishNode.col = finishNode.col;
     }
 
     componentDidUpdate(prevProps) {
+        if (prevProps.resetGrid !== this.props.resetGrid) {
+            const newGrid = getInitialGrid();
+            this.setState({
+                grid: newGrid,
+                startNode: { row: 10, col: 15 },
+                finishNode: { row: 10, col: 40 },
+            });
+        }
+        if (prevProps.clearPath !== this.props.clearPath) {
+            const { grid } = this.state;
+            grid.map((row) => {
+                row.map((node) => {
+                    node.distance = Infinity;
+                    node.previousNode = null;
+                    node.isVisited = false;
+                    node.heuristicDistance = Infinity;
+                    node.swarmIdx = Infinity;
+                    node.fullDistance = Infinity;
+                    return;
+                })
+            })
+        }
         if (prevProps.triggerAlgorithm !== this.props.triggerAlgorithm) {
             switch (this.props.algorithm) {
                 case 'Dijkstra':
                     this.visualizeDijkstra(this.props.speed);
                     break;
-                case 'A star':
+                case 'AStar':
                     this.visualizeAStar(this.props.speed);
                     break;
                 case 'Depth First Search':
                     this.visualizeDFS(this.props.speed);
                     break;
-                case 'Breadth First Search':
+                case 'BFS':
                     this.visualizeBFS(this.props.speed);
                     break;
-                case 'Gready Best First Search':
+                case 'GreadyBFS':
                     this.visualizeGreadyBFS(this.props.speed);
                     break;
                 case 'Swarm':
@@ -51,14 +78,6 @@ class Grid extends Component {
                 default:
                     break;
             }
-        }
-        if (prevProps.resetGrid !== this.props.resetGrid) {
-            const newGrid = getInitialGrid();
-            this.setState({
-                grid: newGrid,
-                startNode: { row: 10, col: 15 },
-                finishNode: { row: 10, col: 40 },
-            });
         }
     }
 
@@ -109,6 +128,8 @@ class Grid extends Component {
             grid[row][col].isStart = true;
             startNode.row = row;
             startNode.col = col;
+            this.props.startNode.row = row;
+            this.props.startNode.col = col
             document.getElementById(`node-${row}-${col}`).className = 'Node node-start'
             return;
         }
@@ -116,6 +137,8 @@ class Grid extends Component {
             grid[row][col].isFinish = true;
             finishNode.row = row;
             finishNode.col = col;
+            this.props.finishNode.row = row;
+            this.props.finishNode.col = col
             document.getElementById(`node-${row}-${col}`).className = 'Node node-finish'
             return;
         }
@@ -194,36 +217,34 @@ class Grid extends Component {
     render() {
         const { grid } = this.state;
         return (
-            <div className="main">
-                <button type="button" className="btn btn-default" onClick={this.visualizeMaze}>Create Maze</button>
-                <div className="grid">
-                    {grid.map((row, rowIdx) => {
-                        return (
-                            <div key={rowIdx} className="row">
-                                {row.map((node, nodeIdx) => {
-                                    const { row, col, isFinish, isStart, isWall, isWeight } = node;
-                                    return (
-                                        <Node
-                                            key={nodeIdx}
-                                            row={row}
-                                            col={col}
-                                            isFinish={isFinish}
-                                            isStart={isStart}
-                                            isWall={isWall}
-                                            isWeight={isWeight}
-                                            onMouseEnter={this.handleMouseEnter}
-                                            onMouseDown={this.handleMouseDown}
-                                            onMouseUp={this.handleMouseUp}
-                                            onMouseLeave={this.handleMouseLeave}
-                                        ></Node>
-                                    );
-                                })
-                                }
-                            </div>
-                        );
-                    })}
-                </div>
-            </div>
+            <div className="grid">
+                {grid.map((row, rowIdx) => {
+                    return (
+                        <div key={rowIdx} className="Row">
+                            {row.map((node, nodeIdx) => {
+                                const { row, col, isFinish, isStart, isWall, isWeight } = node;
+                                return (
+                                    <Node
+                                        key={nodeIdx}
+                                        row={row}
+                                        col={col}
+                                        isFinish={isFinish}
+                                        isStart={isStart}
+                                        isWall={isWall}
+                                        isWeight={isWeight}
+                                        onMouseEnter={this.handleMouseEnter}
+                                        onMouseDown={this.handleMouseDown}
+                                        onMouseUp={this.handleMouseUp}
+                                        onMouseLeave={this.handleMouseLeave}
+                                    ></Node>
+                                );
+                            })
+                            }
+                        </div>
+                    );
+                })
+                }
+            </div >
         )
     }
 }
@@ -231,9 +252,9 @@ export default Grid;
 
 const getInitialGrid = () => {
     const grid = [];
-    for (let row = 0; row <= 20; row++) {
+    for (let row = 0; row < 20; row++) {
         const currentRow = [];
-        for (let col = 0; col <= 50; col++) {
+        for (let col = 0; col < 50; col++) {
             currentRow.push(createNode(row, col));
         };
         grid.push(currentRow);
