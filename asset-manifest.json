@@ -1,23 +1,23 @@
 {
   "files": {
-    "main.css": "/algo_demo/static/css/main.243827d5.chunk.css",
-    "main.js": "/algo_demo/static/js/main.3e981e9f.chunk.js",
-    "main.js.map": "/algo_demo/static/js/main.3e981e9f.chunk.js.map",
-    "runtime-main.js": "/algo_demo/static/js/runtime-main.83f0cdc6.js",
-    "runtime-main.js.map": "/algo_demo/static/js/runtime-main.83f0cdc6.js.map",
-    "static/js/2.b32626e4.chunk.js": "/algo_demo/static/js/2.b32626e4.chunk.js",
-    "static/js/2.b32626e4.chunk.js.map": "/algo_demo/static/js/2.b32626e4.chunk.js.map",
-    "index.html": "/algo_demo/index.html",
-    "precache-manifest.3846f4d2e8e493583f8d098767f03476.js": "/algo_demo/precache-manifest.3846f4d2e8e493583f8d098767f03476.js",
-    "service-worker.js": "/algo_demo/service-worker.js",
-    "static/css/main.243827d5.chunk.css.map": "/algo_demo/static/css/main.243827d5.chunk.css.map",
-    "static/js/2.b32626e4.chunk.js.LICENSE": "/algo_demo/static/js/2.b32626e4.chunk.js.LICENSE",
-    "static/media/Node.css": "/algo_demo/static/media/finish.8890ac7b.svg"
+    "main.css": "/React-Algorithm-Visualizer/static/css/main.3474cf4f.chunk.css",
+    "main.js": "/React-Algorithm-Visualizer/static/js/main.a6cc3932.chunk.js",
+    "main.js.map": "/React-Algorithm-Visualizer/static/js/main.a6cc3932.chunk.js.map",
+    "runtime-main.js": "/React-Algorithm-Visualizer/static/js/runtime-main.49bde847.js",
+    "runtime-main.js.map": "/React-Algorithm-Visualizer/static/js/runtime-main.49bde847.js.map",
+    "static/js/2.3c66d205.chunk.js": "/React-Algorithm-Visualizer/static/js/2.3c66d205.chunk.js",
+    "static/js/2.3c66d205.chunk.js.map": "/React-Algorithm-Visualizer/static/js/2.3c66d205.chunk.js.map",
+    "index.html": "/React-Algorithm-Visualizer/index.html",
+    "precache-manifest.c9a63fdbaccde824194b58bcc88898fe.js": "/React-Algorithm-Visualizer/precache-manifest.c9a63fdbaccde824194b58bcc88898fe.js",
+    "service-worker.js": "/React-Algorithm-Visualizer/service-worker.js",
+    "static/css/main.3474cf4f.chunk.css.map": "/React-Algorithm-Visualizer/static/css/main.3474cf4f.chunk.css.map",
+    "static/js/2.3c66d205.chunk.js.LICENSE": "/React-Algorithm-Visualizer/static/js/2.3c66d205.chunk.js.LICENSE",
+    "static/media/Node.css": "/React-Algorithm-Visualizer/static/media/finish.8890ac7b.svg"
   },
   "entrypoints": [
-    "static/js/runtime-main.83f0cdc6.js",
-    "static/js/2.b32626e4.chunk.js",
-    "static/css/main.243827d5.chunk.css",
-    "static/js/main.3e981e9f.chunk.js"
+    "static/js/runtime-main.49bde847.js",
+    "static/js/2.3c66d205.chunk.js",
+    "static/css/main.3474cf4f.chunk.css",
+    "static/js/main.a6cc3932.chunk.js"
   ]
 }
