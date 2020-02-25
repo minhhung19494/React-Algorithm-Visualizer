@@ -1,11 +1,11 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "ea1deb90041a0d540753e8c744005d48",
+    "revision": "f2e7b2b0bba69df752e513523e07b88e",
     "url": "/React-Algorithm-Visualizer/index.html"
   },
   {
-    "revision": "432e9a57a04932757355",
-    "url": "/React-Algorithm-Visualizer/static/css/main.3474cf4f.chunk.css"
+    "revision": "25ac83dd9fd870b343f5",
+    "url": "/React-Algorithm-Visualizer/static/css/main.0486f084.chunk.css"
   },
   {
     "revision": "5b237f4b7a25aa9c1ed9",
@@ -16,8 +16,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/React-Algorithm-Visualizer/static/js/2.3c66d205.chunk.js.LICENSE"
   },
   {
-    "revision": "432e9a57a04932757355",
-    "url": "/React-Algorithm-Visualizer/static/js/main.a6cc3932.chunk.js"
+    "revision": "25ac83dd9fd870b343f5",
+    "url": "/React-Algorithm-Visualizer/static/js/main.87ecd72b.chunk.js"
   },
   {
     "revision": "a6fa2635dc9845fad673",
