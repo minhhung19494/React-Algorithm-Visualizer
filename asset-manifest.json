@@ -1,23 +1,23 @@
 {
   "files": {
-    "main.css": "/React-Algorithm-Visualizer/static/css/main.0486f084.chunk.css",
-    "main.js": "/React-Algorithm-Visualizer/static/js/main.87ecd72b.chunk.js",
-    "main.js.map": "/React-Algorithm-Visualizer/static/js/main.87ecd72b.chunk.js.map",
+    "main.css": "/React-Algorithm-Visualizer/static/css/main.87e48b27.chunk.css",
+    "main.js": "/React-Algorithm-Visualizer/static/js/main.ce11f635.chunk.js",
+    "main.js.map": "/React-Algorithm-Visualizer/static/js/main.ce11f635.chunk.js.map",
     "runtime-main.js": "/React-Algorithm-Visualizer/static/js/runtime-main.49bde847.js",
     "runtime-main.js.map": "/React-Algorithm-Visualizer/static/js/runtime-main.49bde847.js.map",
-    "static/js/2.3c66d205.chunk.js": "/React-Algorithm-Visualizer/static/js/2.3c66d205.chunk.js",
-    "static/js/2.3c66d205.chunk.js.map": "/React-Algorithm-Visualizer/static/js/2.3c66d205.chunk.js.map",
+    "static/js/2.70ce455f.chunk.js": "/React-Algorithm-Visualizer/static/js/2.70ce455f.chunk.js",
+    "static/js/2.70ce455f.chunk.js.map": "/React-Algorithm-Visualizer/static/js/2.70ce455f.chunk.js.map",
     "index.html": "/React-Algorithm-Visualizer/index.html",
-    "precache-manifest.4cf574403835343941cb52f09a78b98c.js": "/React-Algorithm-Visualizer/precache-manifest.4cf574403835343941cb52f09a78b98c.js",
+    "precache-manifest.4dc5db7f3469a0b37eddd4a082be2c5f.js": "/React-Algorithm-Visualizer/precache-manifest.4dc5db7f3469a0b37eddd4a082be2c5f.js",
     "service-worker.js": "/React-Algorithm-Visualizer/service-worker.js",
-    "static/css/main.0486f084.chunk.css.map": "/React-Algorithm-Visualizer/static/css/main.0486f084.chunk.css.map",
-    "static/js/2.3c66d205.chunk.js.LICENSE": "/React-Algorithm-Visualizer/static/js/2.3c66d205.chunk.js.LICENSE",
+    "static/css/main.87e48b27.chunk.css.map": "/React-Algorithm-Visualizer/static/css/main.87e48b27.chunk.css.map",
+    "static/js/2.70ce455f.chunk.js.LICENSE": "/React-Algorithm-Visualizer/static/js/2.70ce455f.chunk.js.LICENSE",
     "static/media/Node.css": "/React-Algorithm-Visualizer/static/media/finish.8890ac7b.svg"
   },
   "entrypoints": [
     "static/js/runtime-main.49bde847.js",
-    "static/js/2.3c66d205.chunk.js",
-    "static/css/main.0486f084.chunk.css",
-    "static/js/main.87ecd72b.chunk.js"
+    "static/js/2.70ce455f.chunk.js",
+    "static/css/main.87e48b27.chunk.css",
+    "static/js/main.ce11f635.chunk.js"
   ]
 }
