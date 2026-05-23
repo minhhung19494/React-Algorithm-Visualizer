@@ -44,8 +44,9 @@ function calculateSwarmIdx(node, visitedNodeInOrder, finishNode) {
 }
 
 function getGroupBestLocation(visitedNodeInOrder, finishNode) {
-    let sumRow = null;
-    let sumCol = null;
+    if (!visitedNodeInOrder.length) return finishNode;
+    let sumRow = 0;
+    let sumCol = 0;
     for (const node of visitedNodeInOrder) {
         sumRow += node.row;
         sumCol += node.col;
