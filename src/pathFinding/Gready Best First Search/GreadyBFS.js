@@ -16,7 +16,8 @@ export function animateAStar(visitedNodeInOrder, NodesinShortestPathOrder, speed
             };
         setTimeout(()=>{
             const node = visitedNodeInOrder[i];
-            document.getElementById(`node-${node.row}-${node.col}`).className = 'Node node-visited';
+            const el = document.getElementById(`node-${node.row}-${node.col}`);
+            if (el) el.className = 'Node node-visited';
         }, speed*i);
 }}
 
@@ -24,7 +25,8 @@ export function animateShortestPath(NodesinShortestPathOrder, speed){
     for(let i=0; i<NodesinShortestPathOrder.length; i++){
         setTimeout(()=>{
             const node = NodesinShortestPathOrder[i];
-            document.getElementById(`node-${node.row}-${node.col}`).className = 'Node node-shortest-path'
+            const el = document.getElementById(`node-${node.row}-${node.col}`);
+            if (el) el.className = 'Node node-shortest-path';
         }, speed*i);
     }
 }

@@ -15,7 +15,8 @@ function animateDFS(nodeVisited, nodeInShortestPath, speed) {
             }
         const node= nodeVisited[i];
         setTimeout(() => {
-            document.getElementById(`node-${node.row}-${node.col}`).className = 'Node node-visited'
+            const el = document.getElementById(`node-${node.row}-${node.col}`);
+            if (el) el.className = 'Node node-visited';
         }, speed * i);
     }
 
