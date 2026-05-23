@@ -1,23 +1,14 @@
 {
   "files": {
-    "main.css": "/React-Algorithm-Visualizer/static/css/main.87e48b27.chunk.css",
-    "main.js": "/React-Algorithm-Visualizer/static/js/main.ce11f635.chunk.js",
-    "main.js.map": "/React-Algorithm-Visualizer/static/js/main.ce11f635.chunk.js.map",
-    "runtime-main.js": "/React-Algorithm-Visualizer/static/js/runtime-main.49bde847.js",
-    "runtime-main.js.map": "/React-Algorithm-Visualizer/static/js/runtime-main.49bde847.js.map",
-    "static/js/2.70ce455f.chunk.js": "/React-Algorithm-Visualizer/static/js/2.70ce455f.chunk.js",
-    "static/js/2.70ce455f.chunk.js.map": "/React-Algorithm-Visualizer/static/js/2.70ce455f.chunk.js.map",
-    "index.html": "/React-Algorithm-Visualizer/index.html",
-    "precache-manifest.4dc5db7f3469a0b37eddd4a082be2c5f.js": "/React-Algorithm-Visualizer/precache-manifest.4dc5db7f3469a0b37eddd4a082be2c5f.js",
-    "service-worker.js": "/React-Algorithm-Visualizer/service-worker.js",
-    "static/css/main.87e48b27.chunk.css.map": "/React-Algorithm-Visualizer/static/css/main.87e48b27.chunk.css.map",
-    "static/js/2.70ce455f.chunk.js.LICENSE": "/React-Algorithm-Visualizer/static/js/2.70ce455f.chunk.js.LICENSE",
-    "static/media/Node.css": "/React-Algorithm-Visualizer/static/media/finish.8890ac7b.svg"
+    "main.css": "/algo_demo/static/css/main.33610b25.css",
+    "main.js": "/algo_demo/static/js/main.d23c79bd.js",
+    "static/media/finish.svg": "/algo_demo/static/media/finish.f60e17778c5bfb98c08e.svg",
+    "index.html": "/algo_demo/index.html",
+    "main.33610b25.css.map": "/algo_demo/static/css/main.33610b25.css.map",
+    "main.d23c79bd.js.map": "/algo_demo/static/js/main.d23c79bd.js.map"
   },
   "entrypoints": [
-    "static/js/runtime-main.49bde847.js",
-    "static/js/2.70ce455f.chunk.js",
-    "static/css/main.87e48b27.chunk.css",
-    "static/js/main.ce11f635.chunk.js"
+    "static/css/main.33610b25.css",
+    "static/js/main.d23c79bd.js"
   ]
 }
