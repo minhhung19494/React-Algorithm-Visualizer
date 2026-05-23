@@ -95,32 +95,32 @@ class PathFinding extends Component {
             <div className="collapse navbar-collapse" id="myNavBar">
               <ul className="nav navbar-nav" >
                 <li className="nav-item small-tag dropdown">
-                  <a className="nav-link dropdown-toggle" data-toggle="dropdown" id="navbarDropdownMenuLink" href="#">Algorithms <span className='caret'></span></a>
+                  <a className="nav-link dropdown-toggle" data-toggle="dropdown" id="navbarDropdownMenuLink" href="#!">Algorithms <span className='caret'></span></a>
                   <ul className="dropdown-menu" id="AlgorithmList" aria-labelledby="navbarDropdownMenuLink">
-                    <li><a className="dropdow-item" onClick={this.selectAlgorithm} name="Dijkstra" href="#">Dijkstra</a></li>
-                    <li><a className="dropdow-item" onClick={this.selectAlgorithm} name="Depth First Search" href="#">Depth First Search (*)</a></li>
-                    <li><a className="dropdow-item" onClick={this.selectAlgorithm} name="BFS" href="#">Breadth First Search (*)</a></li>
-                    <li><a className="dropdow-item" onClick={this.selectAlgorithm} name="AStar" href="#">A star</a></li>
-                    <li><a className="dropdow-item" onClick={this.selectAlgorithm} name="GreadyBFS" href="#">Gready Best First Search</a></li>
-                    <li><a className="dropdow-item" onClick={this.selectAlgorithm} name="Swarm" href="#">Swarm</a></li>
+                    <li><a className="dropdow-item" onClick={this.selectAlgorithm} name="Dijkstra" href="#!">Dijkstra</a></li>
+                    <li><a className="dropdow-item" onClick={this.selectAlgorithm} name="Depth First Search" href="#!">Depth First Search (*)</a></li>
+                    <li><a className="dropdow-item" onClick={this.selectAlgorithm} name="BFS" href="#!">Breadth First Search (*)</a></li>
+                    <li><a className="dropdow-item" onClick={this.selectAlgorithm} name="AStar" href="#!">A star</a></li>
+                    <li><a className="dropdow-item" onClick={this.selectAlgorithm} name="GreadyBFS" href="#!">Gready Best First Search</a></li>
+                    <li><a className="dropdow-item" onClick={this.selectAlgorithm} name="Swarm" href="#!">Swarm</a></li>
                   </ul>
                 </li>
                 <li className='nav-item'>
-                  <a data-toggle="dropdown" href="#">Select Speed<span className="caret"></span></a>
+                  <a data-toggle="dropdown" href="#!">Select Speed<span className="caret"></span></a>
                   <ul className="nav-item small-tag dropdown-menu">
-                    <li><a className="dropdow-item" onClick={this.selectSpeed} name='fast' href="#">Fast</a></li>
-                    <li><a className="dropdow-item" onClick={this.selectSpeed} name='medium' href="#">Medium</a></li>
-                    <li><a className="dropdow-item" onClick={this.selectSpeed} name='slow' href="#">Slow</a></li>
+                    <li><a className="dropdow-item" onClick={this.selectSpeed} name='fast' href="#!">Fast</a></li>
+                    <li><a className="dropdow-item" onClick={this.selectSpeed} name='medium' href="#!">Medium</a></li>
+                    <li><a className="dropdow-item" onClick={this.selectSpeed} name='slow' href="#!">Slow</a></li>
                   </ul>
                 </li>
                 <li className='nav-item main-btn'>
-                  <a onClick={this.triggerAlgo} data-toggle="collapse" href={window.innerWidth < 1250 ? "#myNavBar" : "#"}>{!algorithm ? 'Please Pick Algorithm' : 'Visualize ' + algoTitle} </a>
+                  <a onClick={this.triggerAlgo} data-toggle="collapse" href={window.innerWidth < 1250 ? "#myNavBar" : "#!"}>{!algorithm ? 'Please Pick Algorithm' : 'Visualize ' + algoTitle} </a>
                 </li>
                 <li className='nav-item small-tag'>
-                  <a onClick={this.clearBoard} href="#">ClearBoard</a>
+                  <a onClick={this.clearBoard} href="#!">ClearBoard</a>
                 </li>
                 <li className='nav-item small-tag'>
-                  <a onClick={this.clearPath} href="#">Clear Path</a>
+                  <a onClick={this.clearPath} href="#!">Clear Path</a>
                 </li>
 
                 <li className='nav-item select-weight' >

@@ -240,28 +240,28 @@ class sortingVisualizer extends Component {
                         <div className="collapse navbar-collapse" id="myNavBar">
                             <ul className="nav navbar-nav">
                                 <li className="nav-item dropdown">
-                                    <a className="dropdown-toggle" data-toggle="dropdown" href="#">Algorithms<span className="caret"></span></a>
+                                    <a className="dropdown-toggle" data-toggle="dropdown" href="#!">Algorithms<span className="caret"></span></a>
                                     <ul className="dropdown-menu" id="AlgorithmList">
-                                        <li><a className="dropdown-item" onClick={this.selectAlgo} name="BubbleSort" href="#">Bubble Sort</a></li>
-                                        <li><a className="dropdown-item" onClick={this.selectAlgo} name="SelectionSort" href="#">Selection Sort</a></li>
-                                        <li><a className="dropdown-item" onClick={this.selectAlgo} name="HeapSort" href="#">Heap Sort</a></li>
-                                        <li><a className="dropdown-item" onClick={this.selectAlgo} name="MergeSort" href="#">Merge Sort</a></li>
-                                        <li><a className="dropdown-item" onClick={this.selectAlgo} name="QuickSort" href="#">Quick Sort</a></li>
+                                        <li><a className="dropdown-item" onClick={this.selectAlgo} name="BubbleSort" href="#!">Bubble Sort</a></li>
+                                        <li><a className="dropdown-item" onClick={this.selectAlgo} name="SelectionSort" href="#!">Selection Sort</a></li>
+                                        <li><a className="dropdown-item" onClick={this.selectAlgo} name="HeapSort" href="#!">Heap Sort</a></li>
+                                        <li><a className="dropdown-item" onClick={this.selectAlgo} name="MergeSort" href="#!">Merge Sort</a></li>
+                                        <li><a className="dropdown-item" onClick={this.selectAlgo} name="QuickSort" href="#!">Quick Sort</a></li>
                                     </ul>
                                 </li>
                                 <li className="nav-item main-btn" >
                                     <a onClick={this.startSorting} data-toggle="collapse" href={window.innerWidth < 1250 ? "#myNavBar" : "#"}>{algorithmName != null ? algorithmName : "Please select algorithm"}</a>
                                 </li>
                                 <li className="nav-item">
-                                    <a className="dropdow-toggle" data-toggle="dropdown" href="#">Speed <span className="caret"></span></a>
+                                    <a className="dropdow-toggle" data-toggle="dropdown" href="#!">Speed <span className="caret"></span></a>
                                     <ul className="dropdown-menu">
-                                        <li><a className="dropdow-item" onClick={this.selectSpeed} name='fast' href="#">Fast</a></li>
-                                        <li><a className="dropdow-item" onClick={this.selectSpeed} name='medium' href="#">Medium</a></li>
-                                        <li><a className="dropdow-item" onClick={this.selectSpeed} name='slow' href="#">Slow</a></li>
+                                        <li><a className="dropdow-item" onClick={this.selectSpeed} name='fast' href="#!">Fast</a></li>
+                                        <li><a className="dropdow-item" onClick={this.selectSpeed} name='medium' href="#!">Medium</a></li>
+                                        <li><a className="dropdow-item" onClick={this.selectSpeed} name='slow' href="#!">Slow</a></li>
                                     </ul>
                                 </li>
                                 <li className="nav-item">
-                                    <a onClick={this.createRandomArray} href="#">Create Random Array</a>
+                                    <a onClick={this.createRandomArray} href="#!">Create Random Array</a>
                                 </li>
                                 <li className="nav-item">
                                     <form onSubmit={this.setNumOfBar} className="navbar-form navbar-left" role="search">
